@@ -78,7 +78,7 @@ The platform addresses the challenges faced when the Rwandan government consolid
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Mugisha-Ivan-Bright/fellowship.git
    cd fellowship-church-management
    ```
 
