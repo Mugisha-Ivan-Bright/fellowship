@@ -150,14 +150,14 @@ const variants: {
   };
 } = {
   companies: {
-    primaryColor: "#1B6B3A", // Fellowship green
-    secondaryColor: "#D4F1DB",
+    primaryColor: "#1677FF",
+    secondaryColor: "#BAE0FF",
     icon: (
-      <IconWrapper color="#E8F5E8">
+      <IconWrapper color="#E6F4FF">
         <UserOutlined
           className="md"
           style={{
-            color: "#1B6B3A",
+            color: "#1677FF",
           }}
         />
       </IconWrapper>

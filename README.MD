@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Fellowship Logo](https://img.shields.io/badge/Fellowship-Church%20Management-1B6B3A?style=for-the-badge&logo=church&logoColor=white)
+![Fellowship Logo](https://img.shields.io/badge/Fellowship-Church%20Management-1677FF?style=for-the-badge&logo=church&logoColor=white)
 
 **A digital church management platform built for local ADEPR congregations in Rwanda**
 
@@ -56,7 +56,7 @@ The platform addresses the challenges faced when the Rwandan government consolid
 - **Real-time Metrics**: Total members, Igihande groups, attendance records, dedications
 - **Visual Charts**: Attendance trends, contribution patterns, member growth
 - **Quick Stats**: Active vs inactive members, attendance rates, recent activities
-- **Fellowship Branding**: ADEPR green theme (#1B6B3A) throughout the interface
+- **Professional Interface**: Clean, modern design with intuitive navigation
 
 ## 🛠️ Tech Stack
 

@@ -40,7 +40,7 @@ export const IgihandeListPage = () => {
       key: "title",
       render: (value: string, record: any) => (
         <Space>
-          <TeamOutlined style={{ color: "#1B6B3A" }} />
+          <TeamOutlined style={{ color: "#1677FF" }} />
           <div>
             <Text strong>{value}</Text>
             <br />
@@ -276,7 +276,7 @@ export const IgihandeShowPage = () => {
         <Col xs={24} md={8}>
           <Card>
             <div style={{ textAlign: "center" }}>
-              <TeamOutlined style={{ fontSize: 48, color: "#1B6B3A", marginBottom: 16 }} />
+              <TeamOutlined style={{ fontSize: 48, color: "#1677FF", marginBottom: 16 }} />
               <div>
                 <Text strong style={{ fontSize: 18 }}>
                   {igihandeData?.title}
@@ -296,7 +296,7 @@ export const IgihandeShowPage = () => {
                   title="Total Members"
                   value={0}
                   prefix={<UserOutlined />}
-                  valueStyle={{ color: "#1B6B3A" }}
+                  valueStyle={{ color: "#1677FF" }}
                 />
               </Card>
             </Col>

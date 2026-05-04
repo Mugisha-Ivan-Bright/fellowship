@@ -108,7 +108,7 @@ export const ProjectCard = ({
   const getTaskPriority = (title: string) => {
     const lowerTitle = title.toLowerCase();
     if (lowerTitle.includes('member') || lowerTitle.includes('attendance') || lowerTitle.includes('service')) {
-      return { color: '#1B6B3A', icon: <UserOutlined />, label: 'Member Care' };
+      return { color: '#1677FF', icon: <UserOutlined />, label: 'Member Care' };
     }
     if (lowerTitle.includes('igihande') || lowerTitle.includes('group') || lowerTitle.includes('leader')) {
       return { color: '#1677FF', icon: <TeamOutlined />, label: 'Igihande' };

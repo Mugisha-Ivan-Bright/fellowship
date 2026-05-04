@@ -38,7 +38,7 @@ export const AttendanceListPage = () => {
       key: "name",
       render: (value: string, record: any) => (
         <Space>
-          <CalendarOutlined style={{ color: "#1B6B3A" }} />
+          <CalendarOutlined style={{ color: "#1677FF" }} />
           <div>
             <Text strong>{value}</Text>
             <br />
@@ -98,7 +98,7 @@ export const AttendanceListPage = () => {
               title="Today's Attendance"
               value={0}
               prefix={<UserOutlined />}
-              valueStyle={{ color: "#1B6B3A" }}
+              valueStyle={{ color: "#1677FF" }}
             />
           </Card>
         </Col>

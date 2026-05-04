@@ -39,7 +39,7 @@ export const DedicationsListPage = () => {
       key: "member",
       render: (value: string, record: any) => (
         <Space>
-          <UserOutlined style={{ color: "#1B6B3A" }} />
+          <UserOutlined style={{ color: "#1677FF" }} />
           <div>
             <Text strong>{value}</Text>
             <br />
@@ -65,7 +65,7 @@ export const DedicationsListPage = () => {
       dataIndex: "value",
       key: "value",
       render: (value: number) => (
-        <Text strong style={{ color: "#1B6B3A" }}>
+        <Text strong style={{ color: "#1677FF" }}>
           {value ? `${value.toLocaleString()} RWF` : "N/A"}
         </Text>
       ),
@@ -99,7 +99,7 @@ export const DedicationsListPage = () => {
               value={0}
               prefix={<GiftOutlined />}
               suffix="RWF"
-              valueStyle={{ color: "#1B6B3A" }}
+              valueStyle={{ color: "#1677FF" }}
             />
           </Card>
         </Col>
