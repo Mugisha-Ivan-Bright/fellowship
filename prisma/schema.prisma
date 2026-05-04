@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider   = "prisma-client-js"
+  output     = "../src/generated/prisma"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────
+
+enum Role {
+  SECRETARY
+  IGIHANDE_LEADER
+  COMMITTEE
+  PASTOR
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  WIDOWED
+  DIVORCED
+}
+
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ServiceType {
+  SUNDAY
+  MIDWEEK
+  SPECIAL
+}
+
+enum DedicationType {
+  TITHE
+  OFFERING
+  VOLUNTEERING
+  SERVICE_ROLE
+  OTHER
+}
+
+enum TaskStage {
+  TODO
+  IN_PROGRESS
+  DONE
+  ON_HOLD
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// ─── Models ──────────────────────────────────────────
+
+model User {
+  id                  String       @id @default(cuid())
+  clerkId             String       @unique
+  email               String       @unique
+  name                String?
+  role                Role         @default(SECRETARY)
+  igihandeId          String?      @unique
+  igihande            Igihande?    @relation("IgihandeLeader", fields: [igihandeId], references: [id])
+  tasksCreated        Task[]       @relation("TaskCreator")
+  tasksAssigned       Task[]       @relation("TaskAssignee")
+  attendanceRecorded  Attendance[]
+  dedicationsRecorded Dedication[]
+  createdAt           DateTime     @default(now())
+}
+
+model Member {
+  id            String        @id @default(cuid())
+  membershipNo  String        @unique
+  firstName     String
+  lastName      String
+  nationalId    String        @unique
+  phone         String?
+  dateOfBirth   DateTime?
+  gender        Gender
+  maritalStatus MaritalStatus
+  baptismDate   DateTime?
+  photoUrl      String?
+  province      String
+  district      String
+  sector        String
+  cell          String
+  village       String
+  igihandeId    String
+  igihande      Igihande      @relation(fields: [igihandeId], references: [id])
+  status        MemberStatus  @default(ACTIVE)
+  attendances   Attendance[]
+  dedications   Dedication[]
+  relatedTasks  Task[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Igihande {
+  id        String   @id @default(cuid())
+  name      String
+  leaderId  String?
+  leader    User?    @relation("IgihandeLeader")
+  members   Member[]
+  createdAt DateTime @default(now())
+}
+
+model Service {
+  id          String      @id @default(cuid())
+  type        ServiceType
+  title       String?
+  date        DateTime
+  attendances Attendance[]
+  createdAt   DateTime    @default(now())
+}
+
+model Attendance {
+  id           String   @id @default(cuid())
+  memberId     String
+  member       Member   @relation(fields: [memberId], references: [id])
+  serviceId    String
+  service      Service  @relation(fields: [serviceId], references: [id])
+  present      Boolean  @default(false)
+  notes        String?
+  recordedById String
+  recordedBy   User     @relation(fields: [recordedById], references: [id])
+  createdAt    DateTime @default(now())
+
+  @@unique([memberId, serviceId])
+}
+
+model Dedication {
+  id           String         @id @default(cuid())
+  memberId     String
+  member       Member         @relation(fields: [memberId], references: [id])
+  type         DedicationType
+  description  String?
+  date         DateTime
+  recordedById String
+  recordedBy   User           @relation(fields: [recordedById], references: [id])
+  createdAt    DateTime       @default(now())
+}
+
+model Task {
+  id              String       @id @default(cuid())
+  title           String
+  description     String?
+  stage           TaskStage    @default(TODO)
+  priority        TaskPriority @default(MEDIUM)
+  dueDate         DateTime?
+  assignedToId    String?
+  assignedTo      User?        @relation("TaskAssignee", fields: [assignedToId], references: [id])
+  relatedMemberId String?
+  relatedMember   Member?      @relation(fields: [relatedMemberId], references: [id])
+  createdById     String
+  createdBy       User         @relation("TaskCreator", fields: [createdById], references: [id])
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}

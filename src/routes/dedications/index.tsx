@@ -6,6 +6,7 @@ import {
   Create,
   useForm,
 } from "@refinedev/antd";
+import { useTranslate } from "@refinedev/core";
 import {
   Space,
   Table,
@@ -28,62 +29,54 @@ import dayjs from "dayjs";
 const { Text } = Typography;
 
 export const DedicationsListPage = () => {
+  const t = useTranslate();
   const { tableProps } = useTable({
-    resource: "deals", // Map to demo deals resource
+    resource: "dedications",
   });
 
   const columns = [
     {
-      title: "Member",
-      dataIndex: ["company", "name"],
+      title: t("dedications.fields.member"),
+      dataIndex: ["member", "firstName"],
       key: "member",
       render: (value: string, record: any) => (
         <Space>
           <UserOutlined style={{ color: "#1677FF" }} />
           <div>
-            <Text strong>{value}</Text>
+            <Text strong>{record.member?.firstName} {record.member?.lastName}</Text>
             <br />
-            <Text type="secondary">{record.dealContact?.name}</Text>
+            <Text type="secondary">{record.member?.membershipNo}</Text>
           </div>
         </Space>
       ),
     },
     {
-      title: "Type",
-      dataIndex: "title",
+      title: t("dedications.fields.type"),
+      dataIndex: "type",
       key: "type",
-      render: (value: string, record: any) => (
+      render: (value: string) => (
         <div>
-          <Text strong>{value}</Text>
-          <br />
-          <Tag color="blue">{record.stage?.title || "General"}</Tag>
+          <Text strong>{t(`dedications.types.${value.toLowerCase().replace("_", "")}`)}</Text>
         </div>
       ),
     },
     {
-      title: "Amount/Description",
-      dataIndex: "value",
-      key: "value",
-      render: (value: number) => (
-        <Text strong style={{ color: "#1677FF" }}>
-          {value ? `${value.toLocaleString()} RWF` : "N/A"}
+      title: t("dedications.fields.description"),
+      dataIndex: "description",
+      key: "description",
+      render: (value: string) => (
+        <Text strong style={{ color: "#1B6B3A" }}>
+          {value || "N/A"}
         </Text>
       ),
     },
     {
-      title: "Date",
-      dataIndex: "createdAt",
+      title: t("dedications.fields.date"),
+      dataIndex: "date",
       key: "date",
-      render: (value: string, record: any) => (
+      render: (value: string) => (
         <div>
-          <Text>{value ? dayjs(value).format("MMM DD, YYYY") : "Today"}</Text>
-          <br />
-          <Text type="secondary">
-            {record.closeDateMonth && record.closeDateYear
-              ? `${record.closeDateMonth}/${record.closeDateYear}`
-              : "Current"
-            }
-          </Text>
+          <Text>{value ? dayjs(value).format("MMM DD, YYYY") : t("dashboard.title")}</Text>
         </div>
       ),
     },
@@ -95,7 +88,7 @@ export const DedicationsListPage = () => {
         <Col xs={24} md={6}>
           <Card>
             <Statistic
-              title="Today's Dedications"
+              title={t("dedications.stats.today")}
               value={0}
               prefix={<GiftOutlined />}
               suffix="RWF"
@@ -106,7 +99,7 @@ export const DedicationsListPage = () => {
         <Col xs={24} md={6}>
           <Card>
             <Statistic
-              title="This Week"
+              title={t("dedications.stats.thisWeek")}
               value={0}
               prefix={<DollarOutlined />}
               suffix="RWF"
@@ -117,7 +110,7 @@ export const DedicationsListPage = () => {
         <Col xs={24} md={6}>
           <Card>
             <Statistic
-              title="This Month"
+              title={t("dedications.stats.thisMonth")}
               value={0}
               prefix={<CalendarOutlined />}
               suffix="RWF"
@@ -128,7 +121,7 @@ export const DedicationsListPage = () => {
         <Col xs={24} md={6}>
           <Card>
             <Statistic
-              title="Total Members"
+              title={t("dashboard.totalMembers")}
               value={0}
               prefix={<UserOutlined />}
               valueStyle={{ color: "#722ed1" }}
@@ -138,12 +131,12 @@ export const DedicationsListPage = () => {
       </Row>
 
       <List
-        resource="deals"
-        title="Dedications & Contributions"
+        resource="dedications"
+        title={t("dedications.title")}
         headerButtons={({ defaultButtons }) => (
           <>
             {defaultButtons}
-            <CreateButton>Record Dedication</CreateButton>
+            <CreateButton>{t("dedications.actions.record")}</CreateButton>
           </>
         )}
       >
@@ -151,11 +144,12 @@ export const DedicationsListPage = () => {
           {...tableProps}
           columns={columns}
           rowKey="id"
+          scroll={{ x: true }}
           pagination={{
             ...tableProps.pagination,
             showSizeChanger: true,
             showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} dedication records`,
+              t("common.table.paginationTotal", { rangeStart: range[0], rangeEnd: range[1], total }),
           }}
         />
       </List>
@@ -164,23 +158,16 @@ export const DedicationsListPage = () => {
 };
 
 export const DedicationsCreatePage = () => {
+  const t = useTranslate();
   const { formProps, saveButtonProps, onFinish } = useForm({
-    resource: "deals", // Map to demo deals resource
+    resource: "dedications",
     action: "create",
     redirect: "list",
   });
 
   const handleFinish = async (values: any) => {
-    // Map Fellowship form data to demo deal fields
-    const mappedValues = {
-      title: values.dedicationType, // Dedication type
-      value: values.amount, // Amount
-      closeDateMonth: dayjs().month() + 1,
-      closeDateYear: dayjs().year(),
-    };
-
     try {
-      await onFinish(mappedValues);
+      await onFinish({ input: values });
     } catch (error) {
       console.error("Failed to record dedication:", error);
     }
@@ -188,44 +175,33 @@ export const DedicationsCreatePage = () => {
 
   return (
     <Create
-      resource="deals"
-      title="Record Dedication"
+      resource="dedications"
+      title={t("dedications.actions.record")}
       breadcrumb={false}
     >
       <Form {...formProps} layout="vertical" onFinish={handleFinish}>
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Member"
+              label={t("dedications.fields.memberId")}
               name="memberId"
-              rules={[{ required: true, message: "Please select member" }]}
+              rules={[{ required: true, message: t("action.required") }]}
             >
-              <Select
-                showSearch
-                placeholder="Search and select member"
-                optionFilterProp="children"
-                allowClear
-              >
-                <Select.Option value="1">Jean Uwimana (M001)</Select.Option>
-                <Select.Option value="2">Marie Mukamana (M002)</Select.Option>
-                <Select.Option value="3">Paul Nzeyimana (M003)</Select.Option>
-              </Select>
+              <Input placeholder={t("dedications.fields.memberId")} />
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Dedication Type"
-              name="dedicationType"
-              rules={[{ required: true, message: "Please select dedication type" }]}
+              label={t("dedications.fields.type")}
+              name="type"
+              rules={[{ required: true, message: t("action.required") }]}
             >
-              <Select placeholder="Select dedication type">
-                <Select.Option value="Tithing">Tithing (10%)</Select.Option>
-                <Select.Option value="Offering">Offering</Select.Option>
-                <Select.Option value="Special Offering">Special Offering</Select.Option>
-                <Select.Option value="Building Fund">Building Fund</Select.Option>
-                <Select.Option value="Mission Support">Mission Support</Select.Option>
-                <Select.Option value="Volunteering">Volunteering</Select.Option>
-                <Select.Option value="Service Role">Service Role</Select.Option>
+              <Select placeholder={t("dedications.fields.type")}>
+                <Select.Option value="TITHE">{t("dedications.types.tithe")}</Select.Option>
+                <Select.Option value="OFFERING">{t("dedications.types.offering")}</Select.Option>
+                <Select.Option value="VOLUNTEERING">{t("dedications.types.volunteering")}</Select.Option>
+                <Select.Option value="SERVICE_ROLE">{t("dedications.types.servicerole")}</Select.Option>
+                <Select.Option value="OTHER">{t("dedications.types.other")}</Select.Option>
               </Select>
             </Form.Item>
           </Col>
@@ -234,79 +210,23 @@ export const DedicationsCreatePage = () => {
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Amount (RWF)"
-              name="amount"
-              rules={[
-                { required: true, message: "Please enter amount" },
-                { type: "number", min: 0, message: "Amount must be positive" }
-              ]}
+              label={t("dedications.fields.description")}
+              name="description"
+              rules={[{ required: true, message: t("action.required") }]}
             >
-              <InputNumber
-                style={{ width: "100%" }}
-                placeholder="e.g., 5000"
-                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => Number(value!.replace(/\$\s?|(,*)/g, ''))}
-                min={0}
-              />
+              <Input placeholder="..." />
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Date"
-              name="dedicationDate"
-              rules={[{ required: true, message: "Please select date" }]}
+              label={t("dedications.fields.date")}
+              name="date"
+              rules={[{ required: true, message: t("action.required") }]}
               initialValue={dayjs()}
             >
               <DatePicker
                 style={{ width: "100%" }}
                 format="YYYY-MM-DD"
-                placeholder="Select date"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          <Col xs={24} md={12}>
-            <Form.Item
-              label="Category"
-              name="category"
-              initialValue="General"
-            >
-              <Select placeholder="Select category">
-                <Select.Option value="General">General</Select.Option>
-                <Select.Option value="Sunday Service">Sunday Service</Select.Option>
-                <Select.Option value="Special Event">Special Event</Select.Option>
-                <Select.Option value="Monthly Commitment">Monthly Commitment</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col xs={24} md={12}>
-            <Form.Item
-              label="Payment Method"
-              name="paymentMethod"
-              initialValue="Cash"
-            >
-              <Select placeholder="Select payment method">
-                <Select.Option value="Cash">Cash</Select.Option>
-                <Select.Option value="Mobile Money">Mobile Money</Select.Option>
-                <Select.Option value="Bank Transfer">Bank Transfer</Select.Option>
-                <Select.Option value="Check">Check</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          <Col xs={24}>
-            <Form.Item
-              label="Notes"
-              name="notes"
-              extra="Optional notes about this dedication"
-            >
-              <Input.TextArea
-                rows={3}
-                placeholder="e.g., Monthly tithing commitment, Special thanksgiving offering"
               />
             </Form.Item>
           </Col>
@@ -314,7 +234,7 @@ export const DedicationsCreatePage = () => {
 
         <div style={{ textAlign: "right", marginTop: 24 }}>
           <Button type="primary" htmlType="submit" {...saveButtonProps}>
-            Record Dedication
+            {t("dedications.actions.record")}
           </Button>
         </div>
       </Form>

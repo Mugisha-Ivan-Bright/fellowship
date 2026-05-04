@@ -9,12 +9,14 @@ import routerProvider, {
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router";
+import type { AuthProvider } from "@refinedev/core";
+import { useAuth } from "@clerk/react";
 
 import { App as AntdApp, ConfigProvider } from "antd";
 
 import { Layout } from "@/components";
 import { resources } from "@/config/resources";
-import { authProvider, dataProvider, liveProvider } from "@/providers";
+import { dataProvider } from "@/providers";
 import {
   AttendanceCreatePage,
   AttendanceListPage,
@@ -38,7 +40,35 @@ import {
 import "@ant-design/v5-patch-for-react-19";
 import "@refinedev/antd/dist/reset.css";
 
+import { useI18nProvider } from "@/providers/i18n-provider";
+import { accessControlProvider } from "@/providers/accessControlProvider";
+
 const App = () => {
+  const { isSignedIn, signOut } = useAuth();
+  const i18nProvider = useI18nProvider();
+
+  const authProvider: AuthProvider = {
+    login: async () => {
+      return { success: true, redirectTo: "/" };
+    },
+    logout: async () => {
+      await signOut();
+      return { success: true, redirectTo: "/login" };
+    },
+    onError: async (error) => {
+      return { error };
+    },
+    check: async () => {
+      if (isSignedIn) {
+        return { authenticated: true };
+      }
+      return { authenticated: false, redirectTo: "/login" };
+    },
+    getIdentity: async () => {
+      return null;
+    },
+  };
+
   return (
     <BrowserRouter>
       <AntdApp>
@@ -46,9 +76,10 @@ const App = () => {
           <Refine
             routerProvider={routerProvider}
             dataProvider={dataProvider}
-            liveProvider={liveProvider}
             notificationProvider={useNotificationProvider}
             authProvider={authProvider}
+            i18nProvider={i18nProvider}
+            accessControlProvider={accessControlProvider}
             resources={resources}
             options={{
               syncWithLocation: true,

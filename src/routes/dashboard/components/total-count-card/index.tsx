@@ -1,12 +1,11 @@
-import React from "react";
-
-import { AuditOutlined, CheckSquareOutlined, GiftOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
+import { useTranslate } from "@refinedev/core";
+import { CheckSquareOutlined, GiftOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 import { Area, type AreaConfig } from "@ant-design/plots";
 import { Card, Skeleton } from "antd";
 
 import { Text } from "@/components";
 
-type Type = "companies" | "contacts" | "deals" | "taskStages";
+type Type = "members" | "attendance" | "dedications" | "igihande";
 
 type Props = {
   resource: Type;
@@ -19,7 +18,8 @@ export const DashboardTotalCountCard = ({
   isLoading,
   totalCount,
 }: Props) => {
-  const { primaryColor, secondaryColor, icon, title } = variants[resource];
+  const t = useTranslate();
+  const { primaryColor, secondaryColor, icon, titleKey } = variants[resource];
 
   const config: AreaConfig = {
     appendPadding: [1, 0, 0, 0],
@@ -76,7 +76,7 @@ export const DashboardTotalCountCard = ({
       >
         {icon}
         <Text size="md" className="secondary" style={{ marginLeft: "8px" }}>
-          {title}
+          {t(titleKey)}
         </Text>
       </div>
       <div
@@ -145,172 +145,97 @@ const variants: {
     primaryColor: string;
     secondaryColor?: string;
     icon: React.ReactNode;
-    title: string;
+    titleKey: string;
     data: { index: string; value: number }[];
   };
 } = {
-  companies: {
-    primaryColor: "#1677FF",
-    secondaryColor: "#BAE0FF",
+  members: {
+    primaryColor: "#1B6B3A",
+    secondaryColor: "#C0DD97",
     icon: (
       <IconWrapper color="#E6F4FF">
         <UserOutlined
           className="md"
           style={{
-            color: "#1677FF",
+            color: "#1B6B3A",
           }}
         />
       </IconWrapper>
     ),
-    title: "Total Members",
+    titleKey: "dashboard.totalMembers",
     data: [
-      {
-        index: "1",
-        value: 45,
-      },
-      {
-        index: "2",
-        value: 52,
-      },
-      {
-        index: "3",
-        value: 48,
-      },
-      {
-        index: "4",
-        value: 61,
-      },
-      {
-        index: "5",
-        value: 55,
-      },
+      { index: "1", value: 45 },
+      { index: "2", value: 52 },
+      { index: "3", value: 48 },
+      { index: "4", value: 61 },
+      { index: "5", value: 55 },
     ],
   },
-  taskStages: {
-    primaryColor: "#1677FF",
-    secondaryColor: "#BAE0FF",
+  igihande: {
+    primaryColor: "#185FA5",
+    secondaryColor: "#B5D4F4",
     icon: (
       <IconWrapper color="#E6F4FF">
         <TeamOutlined
           className="md"
           style={{
-            color: "#1677FF",
+            color: "#185FA5",
           }}
         />
       </IconWrapper>
     ),
-    title: "Igihande Groups",
+    titleKey: "dashboard.totalIgihande",
     data: [
-      {
-        index: "1",
-        value: 3,
-      },
-      {
-        index: "2",
-        value: 4,
-      },
-      {
-        index: "3",
-        value: 5,
-      },
-      {
-        index: "4",
-        value: 5,
-      },
-      {
-        index: "5",
-        value: 6,
-      },
+      { index: "1", value: 3 },
+      { index: "2", value: 4 },
+      { index: "3", value: 5 },
+      { index: "4", value: 5 },
+      { index: "5", value: 6 },
     ],
   },
-  contacts: {
-    primaryColor: "#52C41A",
-    secondaryColor: "#D9F7BE",
+  attendance: {
+    primaryColor: "#1B6B3A",
+    secondaryColor: "#C0DD97",
     icon: (
       <IconWrapper color="#F6FFED">
         <CheckSquareOutlined
           className="md"
           style={{
-            color: "#52C41A",
+            color: "#1B6B3A",
           }}
         />
       </IconWrapper>
     ),
-    title: "Attendance Records",
+    titleKey: "dashboard.attendanceRate",
     data: [
-      {
-        index: "1",
-        value: 120,
-      },
-      {
-        index: "2",
-        value: 135,
-      },
-      {
-        index: "3",
-        value: 98,
-      },
-      {
-        index: "4",
-        value: 142,
-      },
-      {
-        index: "5",
-        value: 118,
-      },
-      {
-        index: "6",
-        value: 156,
-      },
+      { index: "1", value: 80 },
+      { index: "2", value: 85 },
+      { index: "3", value: 78 },
+      { index: "4", value: 92 },
+      { index: "5", value: 88 },
     ],
   },
-  deals: {
-    primaryColor: "#FA541C",
-    secondaryColor: "#FFD8BF",
+  dedications: {
+    primaryColor: "#92610A",
+    secondaryColor: "#D9D6CE",
     icon: (
       <IconWrapper color="#FFF2E8">
         <GiftOutlined
           className="md"
           style={{
-            color: "#FA541C",
+            color: "#92610A",
           }}
         />
       </IconWrapper>
     ),
-    title: "Dedications This Month",
+    titleKey: "dashboard.recentEnrollments",
     data: [
-      {
-        index: "1",
-        value: 25000,
-      },
-      {
-        index: "2",
-        value: 32000,
-      },
-      {
-        index: "3",
-        value: 28000,
-      },
-      {
-        index: "4",
-        value: 45000,
-      },
-      {
-        index: "5",
-        value: 38000,
-      },
-      {
-        index: "6",
-        value: 52000,
-      },
-      {
-        index: "7",
-        value: 41000,
-      },
-      {
-        index: "8",
-        value: 48000,
-      },
+      { index: "1", value: 10 },
+      { index: "2", value: 12 },
+      { index: "3", value: 8 },
+      { index: "4", value: 15 },
+      { index: "5", value: 13 },
     ],
   },
 };
+

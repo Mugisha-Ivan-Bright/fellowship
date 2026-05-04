@@ -10,7 +10,7 @@ import {
   useForm,
   Show
 } from "@refinedev/antd";
-import { useGo, useShow } from "@refinedev/core";
+import { useGo, useShow, useTranslate } from "@refinedev/core";
 import {
   Avatar,
   Button,
@@ -34,59 +34,59 @@ import { SearchOutlined, UserOutlined, PlusOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 
 export const MembersListPage = () => {
+  const t = useTranslate();
   const { tableProps } = useTable({
-    resource: "companies", // Map to demo companies resource
+    resource: "members",
   });
 
   const columns = [
     {
-      title: "Member",
-      dataIndex: "name",
+      title: t("members.fields.name"),
       key: "name",
       render: (value: string, record: any) => (
         <Space>
           <Avatar
             size={32}
-            src={record.avatarUrl}
+            src={record.photoUrl}
             icon={<UserOutlined />}
           >
-            {!record.avatarUrl && value?.charAt(0)?.toUpperCase()}
+            {!record.photoUrl && record.firstName?.charAt(0)?.toUpperCase()}
           </Avatar>
           <div>
-            <Text strong>{value}</Text>
+            <Text strong>{record.firstName} {record.lastName}</Text>
             <br />
             <Text type="secondary">
-              #{record.totalRevenue || "N/A"}
+              #{record.membershipNo || "N/A"}
             </Text>
           </div>
         </Space>
       ),
     },
     {
-      title: "Phone",
-      dataIndex: "country", // Map country field to phone
+      title: t("members.fields.phone"),
+      dataIndex: "phone",
       key: "phone",
     },
     {
-      title: "Igihande",
-      dataIndex: "industry", // Map industry field to igihande
+      title: t("members.fields.igihande"),
+      dataIndex: ["igihande", "name"],
       key: "igihande",
       render: (value: string) => (
-        <Tag color="blue">{value || "Not assigned"}</Tag>
+        <Tag color="blue">{value || t("common.notAssigned")}</Tag>
       ),
     },
     {
-      title: "Status",
-      dataIndex: "businessType", // Map businessType field to status
+      title: t("members.fields.status"),
+      dataIndex: "status",
       key: "status",
       render: (value: string) => (
-        <Tag color={value === "B2B" ? "green" : "default"}>
-          {value === "B2B" ? "Active" : value || "Inactive"}
+        <Tag color={value === "ACTIVE" ? "green" : "default"}>
+          {value === "ACTIVE" ? t("common.active") : value || t("common.inactive")}
         </Tag>
       ),
     },
     {
-      title: "Actions",
+      title: t("common.actions"),
       dataIndex: "actions",
       key: "actions",
       render: (_: any, record: any) => (
@@ -100,11 +100,11 @@ export const MembersListPage = () => {
 
   return (
     <List
-      resource="companies"
+      resource="members"
       headerButtons={({ defaultButtons }) => (
         <>
           {defaultButtons}
-          <CreateButton>Enroll New Member</CreateButton>
+          <CreateButton>{t("members.actions.enroll")}</CreateButton>
         </>
       )}
     >
@@ -112,11 +112,12 @@ export const MembersListPage = () => {
         {...tableProps}
         columns={columns}
         rowKey="id"
+        scroll={{ x: true }}
         pagination={{
           ...tableProps.pagination,
           showSizeChanger: true,
           showTotal: (total, range) =>
-            `${range[0]}-${range[1]} of ${total} members`,
+            t("common.table.paginationTotal", { rangeStart: range[0], rangeEnd: range[1], total }),
         }}
       />
     </List>
@@ -124,61 +125,47 @@ export const MembersListPage = () => {
 };
 
 export const MembersCreatePage = () => {
+  const t = useTranslate();
   const [current, setCurrent] = useState(0);
 
   const { formProps, saveButtonProps, onFinish } = useForm({
-    resource: "companies", // Map to demo companies resource
+    resource: "members",
     action: "create",
     redirect: "list",
   });
 
-  const handleStepChange = (step: number) => {
-    setCurrent(step);
-  };
-
   const handleFinish = async (values: any) => {
-    // Map Fellowship form data to demo company fields
-    const mappedValues = {
-      name: `${values.firstName} ${values.lastName}`,
-      totalRevenue: values.membershipNo,
-      industry: values.igihandeId,
-      businessType: "B2B", // Default to active
-      country: values.phone,
-      website: values.nationalId,
-      companySize: values.gender,
-    };
-
     try {
-      await onFinish(mappedValues);
-      message.success("Member enrolled successfully!");
+      await onFinish({ input: values });
+      message.success(t("feedback.saved"));
     } catch (error) {
-      message.error("Failed to enroll member");
+      message.error(t("feedback.error"));
     }
   };
 
   const steps = [
     {
-      title: "Identity & Name",
+      title: t("enroll.section.identity"),
       content: (
         <>
           <Row gutter={16}>
             <Col xs={24} md={12}>
               <Form.Item
-                label="Membership Number"
+                label={t("members.fields.membershipNo")}
                 name="membershipNo"
-                rules={[{ required: true, message: "Please enter membership number" }]}
-                extra="Number from existing paper records"
+                rules={[{ required: true, message: t("action.required") }]}
+                extra={t("field.membershipNo_hint")}
               >
                 <Input placeholder="e.g., M001" />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                label="National ID"
+                label={t("members.fields.nationalId")}
                 name="nationalId"
                 rules={[
-                  { required: true, message: "Please enter national ID" },
-                  { len: 16, message: "National ID must be 16 digits" }
+                  { required: true, message: t("action.required") },
+                  { len: 16, message: t("field.nationalId_hint") }
                 ]}
               >
                 <Input placeholder="1234567890123456" maxLength={16} />
@@ -189,18 +176,18 @@ export const MembersCreatePage = () => {
           <Row gutter={16}>
             <Col xs={24} md={12}>
               <Form.Item
-                label="First Name"
+                label={t("members.fields.firstName")}
                 name="firstName"
-                rules={[{ required: true, message: "Please enter first name" }]}
+                rules={[{ required: true, message: t("action.required") }]}
               >
                 <Input placeholder="Jean" />
               </Form.Item>
             </Col>
             <Col xs={24} md={12}>
               <Form.Item
-                label="Last Name"
+                label={t("members.fields.lastName")}
                 name="lastName"
-                rules={[{ required: true, message: "Please enter last name" }]}
+                rules={[{ required: true, message: t("action.required") }]}
               >
                 <Input placeholder="Uwimana" />
               </Form.Item>
@@ -210,32 +197,32 @@ export const MembersCreatePage = () => {
           <Row gutter={16}>
             <Col xs={24} md={8}>
               <Form.Item
-                label="Gender"
+                label={t("members.fields.gender")}
                 name="gender"
-                rules={[{ required: true, message: "Please select gender" }]}
+                rules={[{ required: true, message: t("action.required") }]}
               >
-                <Select placeholder="Select gender">
-                  <Select.Option value="MALE">Male</Select.Option>
-                  <Select.Option value="FEMALE">Female</Select.Option>
+                <Select placeholder={t("field.gender")}>
+                  <Select.Option value="MALE">{t("field.gender_male")}</Select.Option>
+                  <Select.Option value="FEMALE">{t("field.gender_female")}</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="Phone Number"
+                label={t("members.fields.phone")}
                 name="phone"
-                rules={[{ required: true, message: "Please enter phone number" }]}
+                rules={[]}
               >
                 <Input placeholder="+250 788 123 456" />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="Igihande"
+                label={t("members.fields.igihande")}
                 name="igihandeId"
-                rules={[{ required: true, message: "Please select an Igihande" }]}
+                rules={[{ required: true, message: t("action.required") }]}
               >
-                <Select placeholder="Select Igihande">
+                <Select placeholder={t("members.fields.igihande")}>
                   <Select.Option value="Technology">Technology</Select.Option>
                   <Select.Option value="Healthcare">Healthcare</Select.Option>
                   <Select.Option value="Finance">Finance</Select.Option>
@@ -250,8 +237,8 @@ export const MembersCreatePage = () => {
 
   return (
     <Create
-      resource="companies"
-      title="Enroll New Member"
+      resource="members"
+      title={t("members.actions.enroll")}
       breadcrumb={false}
       headerButtons={[]}
       footerButtons={[]}
@@ -263,7 +250,7 @@ export const MembersCreatePage = () => {
 
         <div style={{ marginTop: 24, textAlign: "right" }}>
           <Button type="primary" htmlType="submit" {...saveButtonProps}>
-            Enroll Member
+            {t("members.actions.enroll")}
           </Button>
         </div>
       </Form>
@@ -343,7 +330,7 @@ export const MembersEditPage = () => {
             <Form.Item
               label="Phone Number"
               name="phone"
-              rules={[{ required: true, message: "Please enter phone number" }]}
+              rules={[]}
             >
               <Input placeholder="+250 788 123 456" />
             </Form.Item>
@@ -422,8 +409,9 @@ export const MembersEditPage = () => {
 };
 
 export const MembersShowPage = () => {
+  const t = useTranslate();
   const { query } = useShow({
-    resource: "companies", // Map to demo companies resource
+    resource: "members",
   });
 
   const memberData = query?.data?.data;
@@ -434,28 +422,28 @@ export const MembersShowPage = () => {
 
   return (
     <Show
-      resource="companies"
-      title="Member Details"
+      resource="members"
+      title={t("members.actions.show")}
     >
       <Row gutter={[16, 16]}>
         <Col xs={24} md={8}>
           <div style={{ textAlign: "center", marginBottom: 24 }}>
             <Avatar
               size={120}
-              src={memberData?.avatarUrl}
+              src={memberData?.photoUrl}
               icon={<UserOutlined />}
             >
-              {!memberData?.avatarUrl && memberData?.name?.charAt(0)?.toUpperCase()}
+              {!memberData?.photoUrl && memberData?.firstName?.charAt(0)?.toUpperCase()}
             </Avatar>
             <div style={{ marginTop: 16 }}>
               <Text strong style={{ fontSize: 18 }}>
-                {memberData?.name}
+                {memberData?.firstName} {memberData?.lastName}
               </Text>
               <br />
-              <Text type="secondary">#{memberData?.totalRevenue || "N/A"}</Text>
+              <Text type="secondary">#{memberData?.membershipNo || "N/A"}</Text>
               <br />
-              <Tag color={memberData?.businessType === "B2B" ? "green" : "default"} style={{ marginTop: 8 }}>
-                {memberData?.businessType === "B2B" ? "Active" : "Inactive"}
+              <Tag color={memberData?.status === "ACTIVE" ? "green" : "default"} style={{ marginTop: 8 }}>
+                {memberData?.status === "ACTIVE" ? t("common.active") : t("common.inactive")}
               </Tag>
             </div>
           </div>
@@ -465,30 +453,30 @@ export const MembersShowPage = () => {
           <Row gutter={[16, 16]}>
             <Col xs={24} md={12}>
               <div>
-                <Text strong>Phone:</Text>
+                <Text strong>{t("members.fields.phone")}:</Text>
                 <br />
-                <Text>{memberData?.country || "Not provided"}</Text>
+                <Text>{memberData?.phone || t("feedback.noData")}</Text>
               </div>
             </Col>
             <Col xs={24} md={12}>
               <div>
-                <Text strong>Igihande:</Text>
+                <Text strong>{t("members.fields.igihande")}:</Text>
                 <br />
-                <Tag color="blue">{memberData?.industry || "Not assigned"}</Tag>
+                <Tag color="blue">{memberData?.igihande?.name || t("common.notAssigned")}</Tag>
               </div>
             </Col>
             <Col xs={24} md={12}>
               <div>
-                <Text strong>Website:</Text>
+                <Text strong>{t("members.fields.nationalId")}:</Text>
                 <br />
-                <Text>{memberData?.website || "Not provided"}</Text>
+                <Text>{memberData?.nationalId || t("feedback.noData")}</Text>
               </div>
             </Col>
             <Col xs={24} md={12}>
               <div>
-                <Text strong>Company Size:</Text>
+                <Text strong>{t("members.fields.gender")}:</Text>
                 <br />
-                <Text>{memberData?.companySize || "Not specified"}</Text>
+                <Text>{memberData?.gender ? t(`field.gender_${memberData.gender.toLowerCase()}`) : t("feedback.noData")}</Text>
               </div>
             </Col>
           </Row>

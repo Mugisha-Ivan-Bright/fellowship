@@ -6,6 +6,7 @@ import {
   Create,
   useForm,
 } from "@refinedev/antd";
+import { useTranslate } from "@refinedev/core";
 import {
   Space,
   Table,
@@ -27,63 +28,58 @@ import dayjs from "dayjs";
 const { Text } = Typography;
 
 export const AttendanceListPage = () => {
+  const t = useTranslate();
   const { tableProps } = useTable({
-    resource: "contacts", // Map to demo contacts resource
+    resource: "attendance",
   });
 
   const columns = [
     {
-      title: "Service/Event",
-      dataIndex: "name",
-      key: "name",
+      title: t("attendance.fields.service"),
+      dataIndex: ["service", "title"],
+      key: "service",
       render: (value: string, record: any) => (
         <Space>
           <CalendarOutlined style={{ color: "#1677FF" }} />
           <div>
-            <Text strong>{value}</Text>
+            <Text strong>{value || record.service?.type}</Text>
             <br />
-            <Text type="secondary">{record.jobTitle || "Sunday Service"}</Text>
+            <Text type="secondary">{dayjs(record.service?.date).format("YYYY-MM-DD")}</Text>
           </div>
         </Space>
       ),
     },
     {
-      title: "Date",
-      dataIndex: "phone", // Map phone field to date
-      key: "date",
-      render: (value: string) => (
-        <Text>{value || dayjs().format("YYYY-MM-DD")}</Text>
-      ),
-    },
-    {
-      title: "Member",
-      dataIndex: "email", // Map email field to member info
+      title: t("attendance.fields.member"),
+      dataIndex: ["member", "firstName"],
       key: "member",
       render: (value: string, record: any) => (
         <div>
-          <Text>{record.company?.name || value}</Text>
+          <Text>{record.member?.firstName} {record.member?.lastName}</Text>
           <br />
-          <Text type="secondary">{value}</Text>
+          <Text type="secondary">{record.member?.membershipNo}</Text>
         </div>
       ),
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (value: string) => {
-        const color = value === "CUSTOMER" ? "green" : value === "LEAD" ? "orange" : "default";
-        const text = value === "CUSTOMER" ? "Present" : value === "LEAD" ? "Late" : "Absent";
-        return <Tag color={color}>{text}</Tag>;
+      title: t("attendance.fields.status"),
+      dataIndex: "present",
+      key: "present",
+      render: (value: boolean) => {
+        return (
+          <Tag color={value ? "green" : "red"}>
+            {value ? t("attendance.present") : t("attendance.absent")}
+          </Tag>
+        );
       },
     },
     {
-      title: "Recorded",
+      title: t("attendance.fields.recorded"),
       dataIndex: "createdAt",
       key: "createdAt",
       render: (value: string) => (
         <Text type="secondary">
-          {value ? dayjs(value).format("MMM DD, YYYY") : "Today"}
+          {value ? dayjs(value).format("MMM DD, YYYY") : t("dashboard.title")}
         </Text>
       ),
     },
@@ -95,7 +91,7 @@ export const AttendanceListPage = () => {
         <Col xs={24} md={6}>
           <Card>
             <Statistic
-              title="Today's Attendance"
+              title={t("attendance.stats.today")}
               value={0}
               prefix={<UserOutlined />}
               valueStyle={{ color: "#1677FF" }}
@@ -105,7 +101,7 @@ export const AttendanceListPage = () => {
         <Col xs={24} md={6}>
           <Card>
             <Statistic
-              title="This Week"
+              title={t("attendance.stats.thisWeek")}
               value={0}
               prefix={<CheckSquareOutlined />}
               valueStyle={{ color: "#52c41a" }}
@@ -115,7 +111,7 @@ export const AttendanceListPage = () => {
         <Col xs={24} md={6}>
           <Card>
             <Statistic
-              title="This Month"
+              title={t("attendance.stats.thisMonth")}
               value={0}
               prefix={<CalendarOutlined />}
               valueStyle={{ color: "#1890ff" }}
@@ -125,7 +121,7 @@ export const AttendanceListPage = () => {
         <Col xs={24} md={6}>
           <Card>
             <Statistic
-              title="Attendance Rate"
+              title={t("attendance.stats.rate")}
               value={0}
               suffix="%"
               valueStyle={{ color: "#722ed1" }}
@@ -135,12 +131,12 @@ export const AttendanceListPage = () => {
       </Row>
 
       <List
-        resource="contacts"
-        title="Attendance Records"
+        resource="attendance"
+        title={t("attendance.title")}
         headerButtons={({ defaultButtons }) => (
           <>
             {defaultButtons}
-            <CreateButton>Record Attendance</CreateButton>
+            <CreateButton>{t("attendance.actions.record")}</CreateButton>
           </>
         )}
       >
@@ -148,11 +144,12 @@ export const AttendanceListPage = () => {
           {...tableProps}
           columns={columns}
           rowKey="id"
+          scroll={{ x: true }}
           pagination={{
             ...tableProps.pagination,
             showSizeChanger: true,
             showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} attendance records`,
+              t("common.table.paginationTotal", { rangeStart: range[0], rangeEnd: range[1], total }),
           }}
         />
       </List>
@@ -161,24 +158,16 @@ export const AttendanceListPage = () => {
 };
 
 export const AttendanceCreatePage = () => {
+  const t = useTranslate();
   const { formProps, saveButtonProps, onFinish } = useForm({
-    resource: "contacts", // Map to demo contacts resource
+    resource: "attendance",
     action: "create",
     redirect: "list",
   });
 
   const handleFinish = async (values: any) => {
-    // Map Fellowship form data to demo contact fields
-    const mappedValues = {
-      name: values.serviceName, // Service/Event name
-      email: values.memberInfo, // Member identifier
-      phone: values.serviceDate, // Date of service
-      jobTitle: values.serviceType, // Service type
-      status: values.attendanceStatus, // Attendance status
-    };
-
     try {
-      await onFinish(mappedValues);
+      await onFinish({ input: values });
     } catch (error) {
       console.error("Failed to record attendance:", error);
     }
@@ -186,37 +175,28 @@ export const AttendanceCreatePage = () => {
 
   return (
     <Create
-      resource="contacts"
-      title="Record Attendance"
+      resource="attendance"
+      title={t("attendance.actions.record")}
       breadcrumb={false}
     >
       <Form {...formProps} layout="vertical" onFinish={handleFinish}>
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Service/Event Name"
-              name="serviceName"
-              rules={[{ required: true, message: "Please enter service name" }]}
-              initialValue="Sunday Service"
+              label={t("attendance.fields.serviceId")}
+              name="serviceId"
+              rules={[{ required: true, message: t("action.required") }]}
             >
-              <Input placeholder="e.g., Sunday Service, Prayer Meeting" />
+              <Input placeholder={t("attendance.fields.serviceId")} />
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Service Type"
-              name="serviceType"
-              rules={[{ required: true, message: "Please select service type" }]}
-              initialValue="Sunday Service"
+              label={t("attendance.fields.memberId")}
+              name="memberId"
+              rules={[{ required: true, message: t("action.required") }]}
             >
-              <Select placeholder="Select service type">
-                <Select.Option value="Sunday Service">Sunday Service</Select.Option>
-                <Select.Option value="Prayer Meeting">Prayer Meeting</Select.Option>
-                <Select.Option value="Bible Study">Bible Study</Select.Option>
-                <Select.Option value="Special Event">Special Event</Select.Option>
-                <Select.Option value="Youth Meeting">Youth Meeting</Select.Option>
-                <Select.Option value="Women's Meeting">Women's Meeting</Select.Option>
-              </Select>
+              <Input placeholder={t("attendance.fields.memberId")} />
             </Form.Item>
           </Col>
         </Row>
@@ -224,63 +204,26 @@ export const AttendanceCreatePage = () => {
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Service Date"
-              name="serviceDate"
-              rules={[{ required: true, message: "Please select service date" }]}
-              initialValue={dayjs().format("YYYY-MM-DD")}
+              label={t("attendance.fields.status")}
+              name="present"
+              rules={[{ required: true, message: t("action.required") }]}
+              initialValue={true}
             >
-              <DatePicker
-                style={{ width: "100%" }}
-                format="YYYY-MM-DD"
-                placeholder="Select date"
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} md={12}>
-            <Form.Item
-              label="Member"
-              name="memberInfo"
-              rules={[{ required: true, message: "Please select or enter member" }]}
-              extra="Select from list or enter member name/ID"
-            >
-              <Select
-                showSearch
-                placeholder="Search and select member"
-                optionFilterProp="children"
-                allowClear
-              >
-                <Select.Option value="Jean Uwimana">Jean Uwimana (M001)</Select.Option>
-                <Select.Option value="Marie Mukamana">Marie Mukamana (M002)</Select.Option>
-                <Select.Option value="Paul Nzeyimana">Paul Nzeyimana (M003)</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          <Col xs={24} md={12}>
-            <Form.Item
-              label="Attendance Status"
-              name="attendanceStatus"
-              rules={[{ required: true, message: "Please select attendance status" }]}
-              initialValue="CUSTOMER"
-            >
-              <Select placeholder="Select attendance status">
-                <Select.Option value="CUSTOMER">Present</Select.Option>
-                <Select.Option value="LEAD">Late</Select.Option>
-                <Select.Option value="UNQUALIFIED">Absent</Select.Option>
+              <Select placeholder={t("attendance.fields.status")}>
+                <Select.Option value={true}>{t("attendance.present")}</Select.Option>
+                <Select.Option value={false}>{t("attendance.absent")}</Select.Option>
               </Select>
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Notes"
+              label={t("attendance.fields.notes")}
               name="notes"
-              extra="Optional notes about attendance"
+              extra={t("field.notes")}
             >
               <Input.TextArea
                 rows={2}
-                placeholder="e.g., Arrived during prayer, Left early for work"
+                placeholder="..."
               />
             </Form.Item>
           </Col>
@@ -288,7 +231,7 @@ export const AttendanceCreatePage = () => {
 
         <div style={{ textAlign: "right", marginTop: 24 }}>
           <Button type="primary" htmlType="submit" {...saveButtonProps}>
-            Record Attendance
+            {t("attendance.actions.record")}
           </Button>
         </div>
       </Form>

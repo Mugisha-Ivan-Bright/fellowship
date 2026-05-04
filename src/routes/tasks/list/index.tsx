@@ -1,6 +1,6 @@
 import React from "react";
 
-import { type HttpError, useGo, useList, useUpdate } from "@refinedev/core";
+import { type HttpError, useGo, useList, useUpdate, useTranslate } from "@refinedev/core";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import type { DragEndEvent } from "@dnd-kit/core";
@@ -24,6 +24,7 @@ type TaskStage = GetFieldsFromList<TaskStagesQuery> & { tasks: Task[] };
 
 export const TasksListPage = ({ children }: React.PropsWithChildren) => {
   const go = useGo();
+  const t = useTranslate();
 
   const {
     result: stages,
@@ -34,7 +35,7 @@ export const TasksListPage = ({ children }: React.PropsWithChildren) => {
       {
         field: "title",
         operator: "in",
-        value: ["TO DO", "IN PROGRESS", "DONE", "ON HOLD"],
+        value: ["TODO", "IN_PROGRESS", "DONE", "ON_HOLD"],
       },
     ],
     sorters: [
@@ -143,7 +144,7 @@ export const TasksListPage = ({ children }: React.PropsWithChildren) => {
         <KanbanBoard onDragEnd={handleOnDragEnd}>
           <KanbanColumn
             id={"unassigned"}
-            title={"Backlog"}
+            title={t("tasks.backlog")}
             count={taskStages?.unassignedStage?.length || 0}
             onAddClick={() => handleAddCard({ stageId: "unassigned" })}
           >
@@ -172,7 +173,7 @@ export const TasksListPage = ({ children }: React.PropsWithChildren) => {
               <KanbanColumn
                 key={column.id}
                 id={column.id}
-                title={column.title}
+                title={t(`tasks.stages.${column.title.toLowerCase().replace("_", "")}`)}
                 count={column.tasks.length}
                 onAddClick={() => handleAddCard({ stageId: column.id })}
               >

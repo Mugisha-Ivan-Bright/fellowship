@@ -1,0 +1,247 @@
+{
+  "nav": {
+    "dashboard": "Incamake",
+    "members": "Abanyetorero",
+    "igihande": "Amahande",
+    "attendance": "Ibitabamo",
+    "dedications": "Ibitangwa",
+    "tasks": "Imirimo yanjye",
+    "settings": "Igenamiterere",
+    "signOut": "Sohoka"
+  },
+  "dashboard": {
+    "title": "Incamake",
+    "welcome": "Murakaza neza",
+    "totalMembers": "Abanyetorero bose",
+    "activeMembers": "Abanyetorero bakora",
+    "inactiveMembers": "Abanyetorero batagikora",
+    "newThisMonth": "Bashya uku kwezi",
+    "attendanceRate": "Igipimo cy'ibitabamo",
+    "totalIgihande": "Amahande yose",
+    "recentEnrollments": "Iyandikisho rya vuba",
+    "noInactive": "Nta manyetorero batagikora babonetse",
+    "upcomingEvents": "Ibirori biri imbere",
+    "noUpcomingEvents": "Nta birori biri imbere",
+    "latestActivities": "Ibikorwa bya vuba",
+    "activity": {
+      "created": "yanditse",
+      "moved": "yimuye",
+      "in": "muri",
+      "to": "kuri",
+      "record": "dosiyesi",
+      "unassigned": "Ntabwo byashyizweho"
+    }
+  },
+  "members": {
+    "title": "Abanyetorero",
+    "enroll": "Andikisha umunyetorero mushya",
+    "search": "Shakisha umunyetorero...",
+    "filterByIgihande": "Shungura ukurikije Igihande",
+    "filterByStatus": "Shungura ukurikije imiterere",
+    "active": "Bakora",
+    "inactive": "Batagikora",
+    "noResults": "Nta manyetorero yabonetse",
+    "profile": "Umwirondoro w'umunyetorero",
+    "editProfile": "Hindura umwirondoro",
+    "deactivate": "Shyira mu batagikora",
+    "activate": "Shyira mu bakora"
+  },
+  "enroll": {
+    "title": "Andikisha umunyetorero mushya",
+    "subtitle": "Hindura impapuro z'inyandiko mu bubiko bwa digital",
+    "section": {
+      "identity": "Indangamuntu n'amazina",
+      "contact": "Aho atuye no gutumanahana",
+      "church": "Amakuru y'itorero",
+      "photo": "Ifoto"
+    }
+  },
+  "field": {
+    "membershipNo": "Inomero y'ubwanditsi",
+    "membershipNo_hint": "Inomero iri ku mpapuro za kera",
+    "nationalId": "Indangamuntu",
+    "firstName": "Izina bita",
+    "lastName": "Izina ry'umuryango",
+    "gender": "Igitsina",
+    "gender_male": "Gabo",
+    "gender_female": "Gore",
+    "dateOfBirth": "Itariki y'amavuko",
+    "phone": "Numero ya telefone",
+    "province": "Intara",
+    "district": "Akarere",
+    "sector": "Segiteri",
+    "cell": "Akagari",
+    "village": "Umudugudu",
+    "baptismDate": "Itariki y'ibatisimu",
+    "maritalStatus": "Imiterere y'ubukwe",
+    "maritalStatus_single": "Ingaragu",
+    "maritalStatus_married": "Bashakanye",
+    "maritalStatus_widowed": "Umupfakazi",
+    "maritalStatus_divorced": "Batandukanye",
+    "igihande": "Igihande",
+    "igihande_hint": "Igihande hafi y'iwabo",
+    "role": "Inshingano mu itorero",
+    "notes": "Ibindi bisobanuro",
+    "photo": "Shyiramo ifoto",
+    "photo_hint": "JPEG cyangwa PNG, ntarengwa MB 5"
+  },
+  "role": {
+    "member": "Umunyetorero",
+    "igihandeLeader": "Umuyobozi w'Igihande",
+    "deacon": "Umudiyakoni",
+    "protocol": "Protokole",
+    "evangelist": "Umuvugabutumwa",
+    "committee": "Uwo mu Komite Nyobozi",
+    "operations": "Umuyobozi ushinzwe Ibikorwa",
+    "treasurer": "Umubitsi",
+    "secretary": "Umunyamabanga",
+    "pastor": "Pasiteri"
+  },
+  "attendance": {
+    "title": "Imiterere y'Abaje",
+    "actions": {
+      "record": "Andika Abaje",
+      "history": "Amateka y'Abaje"
+    },
+    "fields": {
+      "service": "Amateraniro/Igikorwa",
+      "member": "Umunyetorero",
+      "status": "Imiterere yo kuhaba",
+      "recorded": "Byanditswe",
+      "notes": "Ibihe",
+      "serviceId": "Nimero y'Amateraniro",
+      "memberId": "Nimero y'Umunyetorero"
+    },
+    "stats": {
+      "today": "Abaje uyu munsi",
+      "thisWeek": "Iyi Cyumweru",
+      "thisMonth": "Uyu Kwezi",
+      "rate": "Igipimo cy'Abaje"
+    },
+    "present": "Ahari",
+    "absent": "Ntahari"
+  },
+  "tasks": {
+    "title": "Imirimo yanjye",
+    "add": "Ongeraho akazi",
+    "backlog": "Ibisigaye",
+    "fields": {
+      "title": "Umutwe w'akazi",
+      "description": "Ibisobanuro",
+      "priority": "Ingenzi",
+      "dueDate": "Itariki y'iherezo",
+      "relatedMember": "Umunyetorero urebwa",
+      "assignedTo": "Uwahawe"
+    },
+    "priority": {
+      "low": "Yoroheje",
+      "medium": "Hagati",
+      "high": "Ingenzi cyane"
+    },
+    "stages": {
+      "todo": "Ibikwiriye gukorwa",
+      "inprogress": "Bikorwa",
+      "done": "Byarangiye",
+      "onhold": "Bihagaritswe"
+    }
+  },
+  "action": {
+    "save": "Bika",
+    "cancel": "Hagarika",
+    "edit": "Hindura",
+    "delete": "Siba",
+    "confirm": "Emeza",
+    "back": "Subira inyuma",
+    "next": "Komeza",
+    "submit": "Ohereza",
+    "search": "Shakisha",
+    "filter": "Shungura",
+    "clear": "Siba",
+    "loading": "Gutegereza...",
+    "saving": "Kubika...",
+    "required": "Ngombwa"
+  },
+  "feedback": {
+    "saved": "Byabitswe neza",
+    "error": "Habaye ikibazo",
+    "confirmDelete": "Ese uremeza gusiba ibi?",
+    "noData": "Nta makuru arabonetse"
+  },
+  "common": {
+    "active": "Urakora",
+    "inactive": "Ntabwo akora",
+    "notAssigned": "Ntabwo yashyizweyo",
+    "actions": "Ibikorwa",
+    "table": {
+      "paginationTotal": "{{rangeStart}}-{{rangeEnd}} kuri {{total}}"
+    }
+  },
+  "members": {
+    "title": "Abanyetorero",
+    "actions": {
+      "enroll": "Andika Umunyetorero Mushya",
+      "edit": "Hindura Umunyetorero",
+      "show": "Ibisobanuro by'Umunyetorero"
+    },
+    "fields": {
+      "name": "Umunyetorero",
+      "phone": "Terefoni",
+      "igihande": "Igihande",
+      "status": "Imiterere",
+      "membershipNo": "Nimero y'Umunyetorero",
+      "nationalId": "Indangamuntu",
+      "firstName": "Izina rya mbere",
+      "lastName": "Izina rya kabiri",
+      "gender": "Igitsina",
+      "province": "Intara",
+      "district": "Akarere",
+      "maritalStatus": "Irangamimerere"
+    }
+  },
+  "igihande": {
+    "title": "Igihande (Itsinda ry'Inzu)",
+    "actions": {
+      "create": "Andika Igihande Gishya",
+      "edit": "Hindura Igihande",
+      "show": "Ibisobanuro by'Igihande"
+    },
+    "fields": {
+      "name": "Izina ry'Igihande",
+      "members": "Abanyamuryango",
+      "leader": "Umuyobozi",
+      "description": "Ibisobanuro",
+      "schedule": "Gahunda y'Inama"
+    }
+  },
+  "dedications": {
+    "title": "Ibitangwa n'Inkunga",
+    "actions": {
+      "record": "Andika Ikitangwa"
+    },
+    "fields": {
+      "member": "Umunyetorero",
+      "type": "Ubwoko bw'Ikitangwa",
+      "description": "Ibisobanuro",
+      "date": "Itariki",
+      "memberId": "Nimero y'Umunyetorero"
+    },
+    "types": {
+      "tithe": "Icyacumi (10%)",
+      "offering": "Inkunga",
+      "volunteering": "Ubwitange",
+      "serviceRole": "Uruhare mu murimo",
+      "other": "Ibindi"
+    },
+    "stats": {
+      "today": "Ibitangwa by'uyu munsi",
+      "thisWeek": "Iyi Cyumweru",
+      "thisMonth": "Uyu Kwezi"
+    }
+  },
+  "auth": {
+    "signIn": "Injira",
+    "signOut": "Sohoka",
+    "welcome": "Murakaza neza muri Fellowship",
+    "subtitle": "Imicungire y'abanyetorero ba ADEPR"
+  }
+}

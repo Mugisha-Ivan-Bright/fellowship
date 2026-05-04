@@ -1,4 +1,4 @@
-import { useList } from "@refinedev/core";
+import { useTranslate, useList } from "@refinedev/core";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { CalendarOutlined } from "@ant-design/icons";
@@ -11,6 +11,7 @@ import type { DashboardCalendarUpcomingEventsQuery } from "@/graphql/types";
 import { DASHBOARD_CALENDAR_UPCOMING_EVENTS_QUERY } from "./queries";
 
 export const CalendarUpcomingEvents = () => {
+  const t = useTranslate();
   const {
     result: data,
     query: { isLoading },
@@ -56,7 +57,7 @@ export const CalendarUpcomingEvents = () => {
         >
           <CalendarOutlined />
           <Text size="sm" style={{ marginLeft: ".7rem" }}>
-            Upcoming events
+            {t("dashboard.upcomingEvents")}
           </Text>
         </div>
       }
@@ -126,20 +127,19 @@ export const CalendarUpcomingEvents = () => {
         />
       )}
 
-      {!isLoading && data?.data.length === 0 && <NoEvent />}
+      {!isLoading && data?.data.length === 0 && (
+        <span
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "220px",
+          }}
+        >
+          {t("dashboard.noUpcomingEvents")}
+        </span>
+      )}
     </Card>
   );
 };
 
-const NoEvent = () => (
-  <span
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "220px",
-    }}
-  >
-    No Upcoming Event
-  </span>
-);

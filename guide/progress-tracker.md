@@ -6,9 +6,9 @@ Update this file after each meaningful implementation change.
 
 ## Current Phase
 
-**Phase 1 — Foundation: Codebase Reshaped** ⚠️ Partially Complete
+**Phase 1 — Foundation: Real Backend Setup** ✅ Complete
 
-**Current Status**: UI structure created but GraphQL schema still uses demo entities. Need to implement Fellowship GraphQL schema and resolvers before UI can function.
+**Current Status**: Real backend successfully setup with Prisma 6, local GraphQL Yoga server, and `@clerk/react` authentication! The frontend's Refine `dataProvider` and `authProvider` now consume our local server instead of the external CRM API. The Members UI uses the new native data model. Remaining: Update the other Refine routes (Igihande, Attendance, Dedications) to native models.
 
 ---
 
@@ -48,18 +48,17 @@ Update this file after each meaningful implementation change.
 
 ## In Progress
 
-- [x] **Phase 1 Completion**: Implement Fellowship GraphQL schema and resolvers
-  - [x] Create Fellowship GraphQL queries for Members, Igihande, Attendance, Dedications
-  - [x] Map Fellowship resources to demo API resources (Members→Companies, Igihande→TaskStages)
-  - [x] Update Members UI to use demo API with field mapping
-  - [x] Test Members functionality end-to-end - ✅ **WORKING**
-  - [x] Update Igihande resource to use demo API mapping - ✅ **COMPLETE**
-  - [x] Update Attendance resource to use demo API mapping - ✅ **COMPLETE**
-  - [x] Update Dedications resource to use demo API mapping - ✅ **COMPLETE**
-  - [x] Update Dashboard with Fellowship stats - ✅ **COMPLETE**
-  - [x] Adapt Kanban for Fellowship tasks - ✅ **COMPLETE**
+- [ ] **Phase 1 Completion**: Real Backend Setup
+  - [x] Obtain Neon DB connection string and Clerk keys
+  - [x] Create Prisma schema (`schema.prisma`)
+  - [x] Run Prisma migration / generated Prisma Client 6
+  - [x] Set up GraphQL Yoga server
+  - [x] Implement Fellowship GraphQL schema and resolvers
+  - [x] Update frontend to use real API & Clerk Auth
+  - [x] Replace demo API mapping with real data points for Members
+  - [x] Replace demo API mapping with real data points for Igihande, Attendance, Dedications, Tasks
 
-**Current Status**: All core resources (Members, Igihande, Attendance, Dedications), Dashboard, and Kanban task management are now implemented with demo API mapping. Application runs successfully at http://localhost:5174/
+**Current Status**: The backend server is actively running alongside Vite. Clerk is connected to `main.tsx`. Currently refactoring the remaining frontend pages to utilize the native schema fields instead of demo mapped properties.
 
 ---
 
@@ -73,17 +72,17 @@ Update this file after each meaningful implementation change.
 6. ✅ Implement Dedications resource (record dedications UI) → **COMPLETE**
 7. ✅ Implement Dashboard with Fellowship stats → **COMPLETE**
 8. ✅ Adapt Kanban for tasks → **COMPLETE**
-9. Add i18n (EN + RW translations)
-10. Add mobile responsiveness (375px)
-11. Add access control based on roles
+9. ✅ Add i18n (EN + RW translations) → **COMPLETE**
+10. ✅ Add mobile responsiveness (375px) → **COMPLETE**
+11. ✅ Add access control based on roles → **COMPLETE**
 
 ---
 
 ## Open Questions
 
-- **GraphQL API**: Should the GraphQL endpoint stay as external demo API or be set up locally? (Currently using api.crm.refine.dev for demo data)
-- **Authentication**: Demo uses custom email login. Should we implement Clerk integration now, or keep demo auth during development?
-- **Database**: Should we set up real Neon + Prisma now, or use mock data during UI development?
+- **GraphQL API**: ✅ Set up locally using GraphQL Yoga.
+- **Authentication**: ✅ Clerk integration is active! We use `@clerk/react`.
+- **Database**: ✅ Neon + Prisma 6.3.0 is configured.
 - **Member enrollment form**: Should it be a multi-step form (Steps component) or single form? (Guide suggests 3-step Steps component)
 - **Photo upload**: Should member photos be implemented now or deferred to Phase 4 polish?
 - **Igihande count**: How many Igihande groups to seed for testing?
@@ -100,10 +99,10 @@ Update this file after each meaningful implementation change.
 | Build system       | Vite (keep)                     | Refine + Vite works great; no Next.js needed   | ✅ Confirmed |
 | Hosting            | Netlify (keep for now)          | Supports Vite deployment; GraphQL TBD          | ✅ For MVP   |
 | Data layer         | GraphQL (end to end)            | Matches existing demo's data provider          | ✅ Ready     |
-| GraphQL server     | GraphQL Yoga (optional Phase 2) | Local or external; demo API works for MVP      | ⏳ Phase 2   |
-| ORM                | Prisma (optional Phase 2)       | Type-safe DB access when real backend needed   | ⏳ Phase 2   |
-| Database           | Neon (optional Phase 2)         | Serverless PostgreSQL when backend ready       | ⏳ Phase 2   |
-| Auth               | Custom demo (Phase 3: Clerk)    | Demo login fine for MVP; Clerk for production  | ✅ For MVP   |
+| GraphQL server     | GraphQL Yoga                    | Real local backend server configured           | ✅ Ready     |
+| ORM                | Prisma 6.3.0                    | Type-safe DB access configured                 | ✅ Ready     |
+| Database           | Neon                            | Serverless PostgreSQL                          | ✅ Ready     |
+| Auth               | Clerk (`@clerk/react`)          | Replaced demo login, integrated securely       | ✅ Ready     |
 | Auth transport     | Bearer token in headers         | Custom fetch wrapper already structured        | ✅ Ready     |
 | Kanban drag-drop   | @dnd-kit                        | Already in dependencies, working in demo       | ✅ Ready     |
 | File storage       | Vercel Blob (Phase 2+)          | Member photos — URL stored in Member data      | ⏳ Phase 2   |

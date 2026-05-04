@@ -1,4 +1,4 @@
-import { useList } from "@refinedev/core";
+import { useTranslate, useList } from "@refinedev/core";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { UnorderedListOutlined } from "@ant-design/icons";
@@ -19,6 +19,7 @@ import {
 type Props = { limit?: number };
 
 export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
+  const t = useTranslate();
   const {
     result: audit,
 
@@ -91,7 +92,7 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
         >
           <UnorderedListOutlined />
           <Text size="sm" style={{ marginLeft: ".5rem" }}>
-            Latest activities
+            {t("dashboard.latestActivities")}
           </Text>
         </div>
       }
@@ -160,15 +161,15 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
                   }
                   title={dayjs(deal?.createdAt).format("MMM DD, YYYY - HH:mm")}
                   description={
-                    <Space size={4}>
+                    <Space size={4} wrap>
                       <Text strong>{item.user?.name}</Text>
                       <Text>
-                        {item.action === "CREATE" ? "created" : "moved"}
+                        {item.action === "CREATE" ? t("dashboard.activity.created") : t("dashboard.activity.moved")}
                       </Text>
                       <Text strong>{deal?.title}</Text>
-                      <Text>deal</Text>
-                      <Text>{item.action === "CREATE" ? "in" : "to"}</Text>
-                      <Text strong>{deal?.stage?.title || "Unassigned"}.</Text>
+                      <Text>{t("dashboard.activity.record")}</Text>
+                      <Text>{item.action === "CREATE" ? t("dashboard.activity.in") : t("dashboard.activity.to")}</Text>
+                      <Text strong>{deal?.stage?.title || t("dashboard.activity.unassigned")}.</Text>
                     </Space>
                   }
                 />
@@ -180,3 +181,4 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
     </Card>
   );
 };
+

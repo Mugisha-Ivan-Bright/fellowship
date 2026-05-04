@@ -6,7 +6,13 @@ type Error = {
 };
 
 const customFetch = async (url: string, options: RequestInit) => {
-  const accessToken = localStorage.getItem("access_token");
+  let accessToken = "";
+  // @ts-ignore - Clerk attaches to window
+  if (typeof window !== "undefined" && window.Clerk?.session) {
+    // @ts-ignore
+    accessToken = await window.Clerk.session.getToken();
+  }
+  
   const headers = options.headers as Record<string, string>;
 
   return await fetch(url, {

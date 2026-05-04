@@ -14,62 +14,57 @@ export const resources: IResourceItem[] = [
     name: "dashboard",
     list: "/",
     meta: {
-      label: "Dashboard",
+      label: "nav.dashboard",
       icon: <DashboardOutlined />,
     },
   },
   {
-    // Map Fellowship Members to demo Companies
-    name: "companies",
+    name: "members",
     list: "/members",
     show: "/members/:id",
     create: "/members/new",
     edit: "/members/edit/:id",
     meta: {
-      label: "Members",
+      label: "nav.members",
       icon: <UserOutlined />,
     },
   },
   {
-    // Map Fellowship Igihande to demo Task Stages
-    name: "taskStages",
+    name: "igihande",
     list: "/igihande",
     show: "/igihande/:id",
     create: "/igihande/new",
     edit: "/igihande/edit/:id",
     meta: {
-      label: "Igihande",
+      label: "nav.igihande",
       icon: <TeamOutlined />,
     },
   },
   {
-    // Attendance - will use demo Contacts for now
-    name: "contacts",
+    name: "attendance",
     list: "/attendance",
     create: "/attendance/new",
     meta: {
-      label: "Attendance",
+      label: "nav.attendance",
       icon: <CheckSquareOutlined />,
     },
   },
   {
-    // Dedications - will use demo Deals for now
-    name: "deals",
+    name: "dedications",
     list: "/dedications",
     create: "/dedications/new",
     meta: {
-      label: "Dedications",
+      label: "nav.dedications",
       icon: <GiftOutlined />,
     },
   },
   {
-    // Tasks - keep as is
     name: "tasks",
     list: "/tasks",
     create: "/tasks/new",
     edit: "/tasks/edit/:id",
     meta: {
-      label: "My Tasks",
+      label: "nav.tasks",
       icon: <ProjectOutlined />,
     },
   },

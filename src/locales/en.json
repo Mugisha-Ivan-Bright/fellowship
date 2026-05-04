@@ -1,0 +1,247 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "members": "Members",
+    "igihande": "Igihande",
+    "attendance": "Attendance",
+    "dedications": "Dedications",
+    "tasks": "My Tasks",
+    "settings": "Settings",
+    "signOut": "Sign out"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "totalMembers": "Total members",
+    "activeMembers": "Active members",
+    "inactiveMembers": "Inactive members",
+    "newThisMonth": "New this month",
+    "attendanceRate": "Attendance rate",
+    "totalIgihande": "Igihande groups",
+    "recentEnrollments": "Recent enrollments",
+    "noInactive": "No inactive members found",
+    "upcomingEvents": "Upcoming events",
+    "noUpcomingEvents": "No upcoming events",
+    "latestActivities": "Latest activities",
+    "activity": {
+      "created": "created",
+      "moved": "moved",
+      "in": "in",
+      "to": "to",
+      "record": "record",
+      "unassigned": "Unassigned"
+    }
+  },
+  "members": {
+    "title": "Members",
+    "enroll": "Enroll new member",
+    "search": "Search members...",
+    "filterByIgihande": "Filter by Igihande",
+    "filterByStatus": "Filter by status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "noResults": "No members found",
+    "profile": "Member profile",
+    "editProfile": "Edit profile",
+    "deactivate": "Mark as inactive",
+    "activate": "Mark as active"
+  },
+  "enroll": {
+    "title": "Enroll new member",
+    "subtitle": "Transfer paper records to the digital registry",
+    "section": {
+      "identity": "Identity & Name",
+      "contact": "Address & Contact",
+      "church": "Church information",
+      "photo": "Photo"
+    }
+  },
+  "field": {
+    "membershipNo": "Membership number",
+    "membershipNo_hint": "Number from existing paper records",
+    "nationalId": "National ID",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "gender": "Gender",
+    "gender_male": "Male",
+    "gender_female": "Female",
+    "dateOfBirth": "Date of birth",
+    "phone": "Phone number",
+    "province": "Province",
+    "district": "District",
+    "sector": "Sector",
+    "cell": "Cell",
+    "village": "Village",
+    "baptismDate": "Baptism date",
+    "maritalStatus": "Marital status",
+    "maritalStatus_single": "Single",
+    "maritalStatus_married": "Married",
+    "maritalStatus_widowed": "Widowed",
+    "maritalStatus_divorced": "Divorced",
+    "igihande": "Igihande",
+    "igihande_hint": "Nearest Igihande to their home",
+    "role": "Role in church",
+    "notes": "Additional notes",
+    "photo": "Upload photo",
+    "photo_hint": "JPEG or PNG, maximum 5MB"
+  },
+  "role": {
+    "member": "Member",
+    "igihandeLeader": "Igihande Leader",
+    "deacon": "Deacon",
+    "protocol": "Protocol",
+    "evangelist": "Evangelist",
+    "committee": "Committee member",
+    "operations": "Operations Leader",
+    "treasurer": "Treasurer",
+    "secretary": "Secretary",
+    "pastor": "Pastor"
+  },
+  "attendance": {
+    "title": "Attendance Records",
+    "actions": {
+      "record": "Record Attendance",
+      "history": "Attendance History"
+    },
+    "fields": {
+      "service": "Service/Event",
+      "member": "Member",
+      "status": "Attendance Status",
+      "recorded": "Recorded",
+      "notes": "Notes",
+      "serviceId": "Service ID",
+      "memberId": "Member ID"
+    },
+    "stats": {
+      "today": "Today's Attendance",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month",
+      "rate": "Attendance Rate"
+    },
+    "present": "Present",
+    "absent": "Absent"
+  },
+  "tasks": {
+    "title": "My Tasks",
+    "add": "Add task",
+    "backlog": "Backlog",
+    "fields": {
+      "title": "Task title",
+      "description": "Description",
+      "priority": "Priority",
+      "dueDate": "Due date",
+      "relatedMember": "Related member",
+      "assignedTo": "Assigned to"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "stages": {
+      "todo": "To Do",
+      "inprogress": "In Progress",
+      "done": "Done",
+      "onhold": "On Hold"
+    }
+  },
+  "action": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "required": "Required"
+  },
+  "feedback": {
+    "saved": "Saved successfully",
+    "error": "Something went wrong",
+    "confirmDelete": "Are you sure you want to delete this?",
+    "noData": "No data available"
+  },
+  "common": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "notAssigned": "Not assigned",
+    "actions": "Actions",
+    "table": {
+      "paginationTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} items"
+    }
+  },
+  "members": {
+    "title": "Members",
+    "actions": {
+      "enroll": "Enroll New Member",
+      "edit": "Edit Member",
+      "show": "Member Details"
+    },
+    "fields": {
+      "name": "Member",
+      "phone": "Phone",
+      "igihande": "Igihande",
+      "status": "Status",
+      "membershipNo": "Membership Number",
+      "nationalId": "National ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "gender": "Gender",
+      "province": "Province",
+      "district": "District",
+      "maritalStatus": "Marital Status"
+    }
+  },
+  "igihande": {
+    "title": "Igihande (Cell Groups)",
+    "actions": {
+      "create": "Create New Igihande",
+      "edit": "Edit Igihande",
+      "show": "Igihande Details"
+    },
+    "fields": {
+      "name": "Igihande Name",
+      "members": "Members",
+      "leader": "Leader",
+      "description": "Description",
+      "schedule": "Meeting Schedule"
+    }
+  },
+  "dedications": {
+    "title": "Dedications & Contributions",
+    "actions": {
+      "record": "Record Dedication"
+    },
+    "fields": {
+      "member": "Member",
+      "type": "Dedication Type",
+      "description": "Description",
+      "date": "Date",
+      "memberId": "Member ID"
+    },
+    "types": {
+      "tithe": "Tithing (10%)",
+      "offering": "Offering",
+      "volunteering": "Volunteering",
+      "serviceRole": "Service Role",
+      "other": "Other"
+    },
+    "stats": {
+      "today": "Today's Dedications",
+      "thisWeek": "This Week",
+      "thisMonth": "This Month"
+    }
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "welcome": "Welcome to Fellowship",
+    "subtitle": "Church member management for ADEPR"
+  }
+}

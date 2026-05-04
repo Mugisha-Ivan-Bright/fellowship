@@ -10,7 +10,7 @@ import {
   Show,
   Edit
 } from "@refinedev/antd";
-import { useShow } from "@refinedev/core";
+import { useShow, useTranslate } from "@refinedev/core";
 import {
   Space,
   Table,
@@ -29,15 +29,16 @@ import { TeamOutlined, UserOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 
 export const IgihandeListPage = () => {
+  const t = useTranslate();
   const { tableProps } = useTable({
-    resource: "taskStages", // Map to demo taskStages resource
+    resource: "igihande",
   });
 
   const columns = [
     {
-      title: "Igihande Name",
-      dataIndex: "title",
-      key: "title",
+      title: t("igihande.fields.name"),
+      dataIndex: "name",
+      key: "name",
       render: (value: string, record: any) => (
         <Space>
           <TeamOutlined style={{ color: "#1677FF" }} />
@@ -50,25 +51,25 @@ export const IgihandeListPage = () => {
       ),
     },
     {
-      title: "Members",
+      title: t("igihande.fields.members"),
       dataIndex: "memberCount",
       key: "memberCount",
       render: () => (
         <Tag color="blue">
-          <UserOutlined /> 0 members
+          <UserOutlined /> 0 {t("igihande.fields.members").toLowerCase()}
         </Tag>
       ),
     },
     {
-      title: "Leader",
+      title: t("igihande.fields.leader"),
       dataIndex: "leader",
       key: "leader",
       render: () => (
-        <Text type="secondary">Not assigned</Text>
+        <Text type="secondary">{t("common.notAssigned")}</Text>
       ),
     },
     {
-      title: "Actions",
+      title: t("common.actions"),
       dataIndex: "actions",
       key: "actions",
       render: (_: any, record: any) => (
@@ -82,12 +83,12 @@ export const IgihandeListPage = () => {
 
   return (
     <List
-      resource="taskStages"
-      title="Igihande (Cell Groups)"
+      resource="igihande"
+      title={t("igihande.title")}
       headerButtons={({ defaultButtons }) => (
         <>
           {defaultButtons}
-          <CreateButton>Create New Igihande</CreateButton>
+          <CreateButton>{t("igihande.actions.create")}</CreateButton>
         </>
       )}
     >
@@ -95,11 +96,12 @@ export const IgihandeListPage = () => {
         {...tableProps}
         columns={columns}
         rowKey="id"
+        scroll={{ x: true }}
         pagination={{
           ...tableProps.pagination,
           showSizeChanger: true,
           showTotal: (total, range) =>
-            `${range[0]}-${range[1]} of ${total} igihande groups`,
+            t("common.table.paginationTotal", { rangeStart: range[0], rangeEnd: range[1], total }),
         }}
       />
     </List>
@@ -107,20 +109,16 @@ export const IgihandeListPage = () => {
 };
 
 export const IgihandeCreatePage = () => {
+  const t = useTranslate();
   const { formProps, saveButtonProps, onFinish } = useForm({
-    resource: "taskStages", // Map to demo taskStages resource
+    resource: "igihande",
     action: "create",
     redirect: "list",
   });
 
   const handleFinish = async (values: any) => {
-    // Map Fellowship form data to demo taskStage fields
-    const mappedValues = {
-      title: values.name, // Map igihande name to title
-    };
-
     try {
-      await onFinish(mappedValues);
+      await onFinish({ input: values });
     } catch (error) {
       console.error("Failed to create igihande:", error);
     }
@@ -128,54 +126,30 @@ export const IgihandeCreatePage = () => {
 
   return (
     <Create
-      resource="taskStages"
-      title="Create New Igihande"
+      resource="igihande"
+      title={t("igihande.actions.create")}
       breadcrumb={false}
     >
       <Form {...formProps} layout="vertical" onFinish={handleFinish}>
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Igihande Name"
+              label={t("igihande.fields.name")}
               name="name"
               rules={[
-                { required: true, message: "Please enter igihande name" },
-                { min: 2, message: "Name must be at least 2 characters" }
+                { required: true, message: t("action.required") },
+                { min: 2, message: t("feedback.error") }
               ]}
-              extra="Enter a descriptive name for this cell group"
+              extra={t("igihande.fields.name")}
             >
-              <Input placeholder="e.g., Igihande rya Kigali, Igihande rya Gasabo" />
-            </Form.Item>
-          </Col>
-          <Col xs={24} md={12}>
-            <Form.Item
-              label="Leader Name"
-              name="leaderName"
-              extra="Optional - can be assigned later"
-            >
-              <Input placeholder="e.g., Jean Uwimana" />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          <Col xs={24}>
-            <Form.Item
-              label="Description"
-              name="description"
-              extra="Optional description or meeting location"
-            >
-              <Input.TextArea
-                rows={3}
-                placeholder="e.g., Meets every Wednesday at 7 PM in Kigali sector"
-              />
+              <Input placeholder="e.g., Igihande rya Kigali" />
             </Form.Item>
           </Col>
         </Row>
 
         <div style={{ textAlign: "right", marginTop: 24 }}>
           <Button type="primary" htmlType="submit" {...saveButtonProps}>
-            Create Igihande
+            {t("igihande.actions.create")}
           </Button>
         </div>
       </Form>
@@ -184,20 +158,16 @@ export const IgihandeCreatePage = () => {
 };
 
 export const IgihandeEditPage = () => {
+  const t = useTranslate();
   const { formProps, saveButtonProps, onFinish } = useForm({
-    resource: "taskStages",
+    resource: "igihande",
     action: "edit",
     redirect: "list",
   });
 
   const handleFinish = async (values: any) => {
-    // Map Fellowship form data to demo taskStage fields
-    const mappedValues = {
-      title: values.name, // Map igihande name to title
-    };
-
     try {
-      await onFinish(mappedValues);
+      await onFinish({ input: values });
     } catch (error) {
       console.error("Failed to update igihande:", error);
     }
@@ -205,50 +175,28 @@ export const IgihandeEditPage = () => {
 
   return (
     <Edit
-      resource="taskStages"
-      title="Edit Igihande"
+      resource="igihande"
+      title={t("igihande.actions.edit")}
     >
       <Form {...formProps} layout="vertical" onFinish={handleFinish}>
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <Form.Item
-              label="Igihande Name"
+              label={t("igihande.fields.name")}
               name="name"
               rules={[
-                { required: true, message: "Please enter igihande name" },
-                { min: 2, message: "Name must be at least 2 characters" }
+                { required: true, message: t("action.required") },
+                { min: 2, message: t("feedback.error") }
               ]}
             >
               <Input placeholder="e.g., Igihande rya Kigali" />
-            </Form.Item>
-          </Col>
-          <Col xs={24} md={12}>
-            <Form.Item
-              label="Leader Name"
-              name="leaderName"
-            >
-              <Input placeholder="e.g., Jean Uwimana" />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row gutter={16}>
-          <Col xs={24}>
-            <Form.Item
-              label="Description"
-              name="description"
-            >
-              <Input.TextArea
-                rows={3}
-                placeholder="e.g., Meets every Wednesday at 7 PM in Kigali sector"
-              />
             </Form.Item>
           </Col>
         </Row>
 
         <div style={{ textAlign: "right", marginTop: 24 }}>
           <Button type="primary" htmlType="submit" {...saveButtonProps}>
-            Save Changes
+            {t("action.save")}
           </Button>
         </div>
       </Form>
@@ -257,8 +205,9 @@ export const IgihandeEditPage = () => {
 };
 
 export const IgihandeShowPage = () => {
+  const t = useTranslate();
   const { query } = useShow({
-    resource: "taskStages", // Map to demo taskStages resource
+    resource: "igihande",
   });
 
   const igihandeData = query?.data?.data;
@@ -269,8 +218,8 @@ export const IgihandeShowPage = () => {
 
   return (
     <Show
-      resource="taskStages"
-      title="Igihande Details"
+      resource="igihande"
+      title={t("igihande.actions.show")}
     >
       <Row gutter={[16, 16]}>
         <Col xs={24} md={8}>
@@ -279,7 +228,7 @@ export const IgihandeShowPage = () => {
               <TeamOutlined style={{ fontSize: 48, color: "#1677FF", marginBottom: 16 }} />
               <div>
                 <Text strong style={{ fontSize: 18 }}>
-                  {igihandeData?.title}
+                  {igihandeData?.name}
                 </Text>
                 <br />
                 <Text type="secondary">ID: {igihandeData?.id}</Text>
@@ -293,7 +242,7 @@ export const IgihandeShowPage = () => {
             <Col xs={24} md={8}>
               <Card>
                 <Statistic
-                  title="Total Members"
+                  title={t("dashboard.totalMembers")}
                   value={0}
                   prefix={<UserOutlined />}
                   valueStyle={{ color: "#1677FF" }}
@@ -303,7 +252,7 @@ export const IgihandeShowPage = () => {
             <Col xs={24} md={8}>
               <Card>
                 <Statistic
-                  title="Active Members"
+                  title={t("dashboard.activeMembers")}
                   value={0}
                   prefix={<UserOutlined />}
                   valueStyle={{ color: "#52c41a" }}
@@ -313,7 +262,7 @@ export const IgihandeShowPage = () => {
             <Col xs={24} md={8}>
               <Card>
                 <Statistic
-                  title="Attendance Rate"
+                  title={t("dashboard.attendanceRate")}
                   value={0}
                   suffix="%"
                   valueStyle={{ color: "#1890ff" }}
@@ -322,34 +271,34 @@ export const IgihandeShowPage = () => {
             </Col>
           </Row>
 
-          <Card title="Igihande Information" style={{ marginTop: 16 }}>
+          <Card title={t("igihande.title")} style={{ marginTop: 16 }}>
             <Row gutter={[16, 16]}>
               <Col xs={24} md={12}>
                 <div>
-                  <Text strong>Leader:</Text>
+                  <Text strong>{t("igihande.fields.leader")}:</Text>
                   <br />
-                  <Text>Not assigned</Text>
+                  <Text>{t("common.notAssigned")}</Text>
                 </div>
               </Col>
               <Col xs={24} md={12}>
                 <div>
-                  <Text strong>Meeting Schedule:</Text>
+                  <Text strong>{t("igihande.fields.schedule")}:</Text>
                   <br />
-                  <Text type="secondary">Not specified</Text>
+                  <Text type="secondary">{t("feedback.noData")}</Text>
                 </div>
               </Col>
               <Col xs={24}>
                 <div>
-                  <Text strong>Description:</Text>
+                  <Text strong>{t("igihande.fields.description")}:</Text>
                   <br />
-                  <Text type="secondary">No description provided</Text>
+                  <Text type="secondary">{t("feedback.noData")}</Text>
                 </div>
               </Col>
             </Row>
           </Card>
 
-          <Card title="Recent Members" style={{ marginTop: 16 }}>
-            <Text type="secondary">No members assigned to this igihande yet.</Text>
+          <Card title={t("dashboard.recentEnrollments")} style={{ marginTop: 16 }}>
+            <Text type="secondary">{t("members.noResults")}</Text>
           </Card>
         </Col>
       </Row>

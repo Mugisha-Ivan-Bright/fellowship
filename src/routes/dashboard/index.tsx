@@ -1,6 +1,6 @@
-import { useCustom } from "@refinedev/core";
+import { useTranslate, useCustom } from "@refinedev/core";
 
-import { Col, Row } from "antd";
+import { Col, Row, Typography } from "antd";
 
 import type { DashboardTotalCountsQuery } from "@/graphql/types";
 
@@ -13,11 +13,12 @@ import {
 import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./queries";
 
 export const DashboardPage = () => {
+  const t = useTranslate();
   const {
     query: { isLoading },
 
     result: data,
-  } = useCustom<DashboardTotalCountsQuery>({
+  } = useCustom<any>({
     url: "",
     method: "get",
     meta: { gqlQuery: DASHBOARD_TOTAL_COUNTS_QUERY },
@@ -25,33 +26,36 @@ export const DashboardPage = () => {
 
   return (
     <div className="page-container">
+      <Typography.Title level={3} style={{ marginBottom: 24 }}>
+        {t("dashboard.title")}
+      </Typography.Title>
       <Row gutter={[32, 32]}>
         <Col xs={24} sm={24} xl={6}>
           <DashboardTotalCountCard
-            resource="companies"
+            resource="members"
             isLoading={isLoading}
-            totalCount={data?.data?.companies?.totalCount}
+            totalCount={data?.data?.dashboardStats?.totalMembers}
           />
         </Col>
         <Col xs={24} sm={24} xl={6}>
           <DashboardTotalCountCard
-            resource="taskStages"
+            resource="igihande"
             isLoading={isLoading}
-            totalCount={data?.data?.taskStages?.totalCount}
+            totalCount={data?.data?.dashboardStats?.totalIgihande}
           />
         </Col>
         <Col xs={24} sm={24} xl={6}>
           <DashboardTotalCountCard
-            resource="contacts"
+            resource="attendance"
             isLoading={isLoading}
-            totalCount={data?.data?.contacts?.totalCount}
+            totalCount={data?.data?.dashboardStats?.attendanceRate}
           />
         </Col>
         <Col xs={24} sm={24} xl={6}>
           <DashboardTotalCountCard
-            resource="deals"
+            resource="dedications"
             isLoading={isLoading}
-            totalCount={data?.data?.deals?.totalCount}
+            totalCount={data?.data?.dashboardStats?.newThisMonth}
           />
         </Col>
       </Row>

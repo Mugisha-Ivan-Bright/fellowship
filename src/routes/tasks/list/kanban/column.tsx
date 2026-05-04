@@ -40,6 +40,8 @@ export const KanbanColumn = ({
         display: "flex",
         flexDirection: "column",
         padding: "0 16px",
+        minWidth: "300px",
+        maxWidth: "300px",
       }}
     >
       <div
@@ -106,6 +108,8 @@ export const KanbanColumnSkeleton = ({ children }: React.PropsWithChildren) => {
         display: "flex",
         flexDirection: "column",
         padding: "0 16px",
+        minWidth: "300px",
+        maxWidth: "300px",
       }}
     >
       <div
