@@ -1,24 +1,23 @@
 import { createServer } from "node:http";
 import { createYoga } from "graphql-yoga";
 import { schema } from "./schema";
-import { prisma } from "./lib/prisma";
+import { db } from "./db";
 
 const yoga = createYoga({
   schema,
   context: async ({ request }) => {
     // We will extract Clerk token from authorization header here
     const authHeader = request.headers.get("authorization");
-    let userId = null;
-    let role = "SECRETARY"; // Default role for now until Clerk is fully connected
+    const clerkUserId = request.headers.get("x-clerk-user-id");
+    let userId = clerkUserId;
+    let role = "SECRETARY"; 
     
-    // Stub auth context for now
-    if (authHeader) {
-      // Decode Clerk token later
-      userId = "stub-user-id";
-    }
+    // In production, you would verify the JWT here using Clerk's SDK
+    // For now, we trust the header in development to get you unblocked
+
 
     return {
-      prisma,
+      db,
       userId,
       role,
     };

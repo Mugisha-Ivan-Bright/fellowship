@@ -15,6 +15,7 @@ export const TasksCreatePage = () => {
     action: "create",
     defaultVisible: true,
     meta: {
+      operation: "CreateTask",
       gqlMutation: CREATE_TASK_MUTATION,
     },
   });
@@ -33,13 +34,17 @@ export const TasksCreatePage = () => {
         {...formProps}
         layout="vertical"
         onFinish={(values) => {
-          formProps?.onFinish?.({
-            ...values,
-            stageId: searchParams.get("stageId")
-              ? Number(searchParams.get("stageId"))
-              : null,
-            userIds: [],
-          });
+          const payload: any = {
+            title: values.title,
+            description: values.description,
+            priority: values.priority,
+            dueDate: values.dueDate ? values.dueDate.toISOString() : undefined,
+            assignedToId: values.assignedToId || undefined,
+            relatedMemberId: values.relatedMemberId || undefined,
+          };
+
+          // Wrap in `task` to match client-generated `CreateOneTaskInput` shape
+          formProps?.onFinish?.({ task: payload });
         }}
       >
         <Form.Item

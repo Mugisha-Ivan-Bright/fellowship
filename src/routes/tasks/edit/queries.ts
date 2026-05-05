@@ -5,21 +5,17 @@ export const UPDATE_TASK_MUTATION = gql`
     updateOneTask(input: $input) {
       id
       title
-      completed
       description
       dueDate
+      priority
       stage {
         id
         title
       }
-      users {
+      assignedTo {
         id
         name
         avatarUrl
-      }
-      checklist {
-        title
-        checked
       }
     }
   }

@@ -8,9 +8,11 @@ export const useI18nProvider = (): I18nProvider => {
   return {
     translate: (key: string, options?: any, defaultMessage?: string) => {
       // In some cases key can be an object from Refine internal components
-      if (typeof key !== "string") return defaultMessage || "";
-      
-      return t(key, options) || defaultMessage || key;
+      const translated = t(key, options);
+      // If translation is missing, `t` returns the key itself (e.g. "nav.dashboard").
+      // In that case prefer the provided defaultMessage when available.
+      if (typeof translated === "string" && translated !== key) return translated;
+      return defaultMessage || (typeof key === "string" ? key : "");
     },
     changeLocale: (lang: string) => i18n.changeLanguage(lang),
     getLocale: () => i18n.language,

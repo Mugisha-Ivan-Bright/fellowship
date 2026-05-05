@@ -1,20 +1,57 @@
 import { useEffect } from "react";
-import { Show, SignInButton, useAuth } from "@clerk/react";
+import gql from "graphql-tag";
+import { Show, SignInButton, useAuth, useUser } from "@clerk/react";
 import { Button, Layout, Typography, Space, Spin } from "antd";
 import { useTranslate } from "@refinedev/core";
 import { useNavigate } from "react-router";
+import { API_URL, dataProvider } from "../../providers/data";
 
 export const LoginPage = () => {
   const t = useTranslate();
   const navigate = useNavigate();
   const { isLoaded, isSignedIn } = useAuth();
+  const { user } = useUser();
 
-  // Automatically redirect to dashboard if already signed in
+  // Automatically sync and redirect to dashboard if already signed in
   useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      navigate("/");
-    }
-  }, [isLoaded, isSignedIn, navigate]);
+    const syncAndRedirect = async () => {
+      if (isLoaded && isSignedIn && user) {
+        try {
+          // Sync user with backend
+          await dataProvider.custom({
+            url: API_URL,
+            method: "post",
+            headers: {
+              "x-clerk-user-id": user.id
+            },
+            meta: {
+              operation: "SyncUser",
+              variables: {
+                clerkId: user.id,
+                email: user.primaryEmailAddress?.emailAddress || "",
+                name: user.fullName || ""
+              },
+              gqlMutation: gql`
+                mutation SyncUser($clerkId: String!, $email: String!, $name: String) {
+                  syncUser(clerkId: $clerkId, email: $email, name: $name) {
+                    id
+                  }
+                }
+              `
+            }
+          });
+          
+          navigate("/");
+        } catch (error) {
+          console.error("Failed to sync user:", error);
+          // Still navigate to / for now, maybe the user already exists
+          navigate("/");
+        }
+      }
+    };
+
+    syncAndRedirect();
+  }, [isLoaded, isSignedIn, user, navigate]);
 
   if (!isLoaded) {
     return (

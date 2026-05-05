@@ -38,6 +38,7 @@ export const UsersForm = ({ initialValues, cancelForm }: Props) => {
       cancelForm();
     },
     meta: {
+      operation: "UpdateTask",
       gqlMutation: UPDATE_TASK_MUTATION,
     },
   });
@@ -46,6 +47,7 @@ export const UsersForm = ({ initialValues, cancelForm }: Props) => {
     resource: "users",
 
     meta: {
+      operation: "UsersSelect",
       gqlQuery: USERS_SELECT_QUERY,
     },
 

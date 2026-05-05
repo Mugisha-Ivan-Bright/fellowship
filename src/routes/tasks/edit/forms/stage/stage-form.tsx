@@ -37,6 +37,7 @@ export const StageForm = ({ isLoading }: Props) => {
       debounce: 0,
     },
     meta: {
+      operation: "UpdateTask",
       gqlMutation: UPDATE_TASK_MUTATION,
     },
   });
@@ -48,7 +49,7 @@ export const StageForm = ({ isLoading }: Props) => {
       {
         field: "title",
         operator: "in",
-        value: ["TODO", "IN PROGRESS", "IN REVIEW", "DONE"],
+        value: ["TODO", "IN_PROGRESS", "DONE", "ON_HOLD"],
       },
     ],
 
@@ -60,6 +61,7 @@ export const StageForm = ({ isLoading }: Props) => {
     ],
 
     meta: {
+      operation: "TaskStagesSelect",
       gqlQuery: TASK_STAGES_SELECT_QUERY,
     },
 

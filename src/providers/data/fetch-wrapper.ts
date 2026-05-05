@@ -7,10 +7,14 @@ type Error = {
 
 const customFetch = async (url: string, options: RequestInit) => {
   let accessToken = "";
+  let userId = "";
+  
   // @ts-ignore - Clerk attaches to window
-  if (typeof window !== "undefined" && window.Clerk?.session) {
+  if (typeof window !== "undefined" && window.Clerk) {
     // @ts-ignore
-    accessToken = await window.Clerk.session.getToken();
+    accessToken = await window.Clerk.session?.getToken() || "";
+    // @ts-ignore
+    userId = window.Clerk.user?.id || "";
   }
   
   const headers = options.headers as Record<string, string>;
@@ -20,6 +24,7 @@ const customFetch = async (url: string, options: RequestInit) => {
     headers: {
       ...headers,
       Authorization: headers?.Authorization || `Bearer ${accessToken}`,
+      "x-clerk-user-id": userId,
       "Content-Type": "application/json",
       "Apollo-Require-Preflight": "true",
     },

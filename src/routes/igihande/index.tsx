@@ -28,10 +28,16 @@ import { TeamOutlined, UserOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
+import { IGIHANDE_LIST_QUERY } from "@/graphql/queries";
+
 export const IgihandeListPage = () => {
   const t = useTranslate();
   const { tableProps } = useTable({
-    resource: "igihande",
+    resource: "igihandes",
+    meta: {
+      operation: "IgihandeList",
+      gqlQuery: IGIHANDE_LIST_QUERY,
+    },
   });
 
   const columns = [
@@ -111,7 +117,7 @@ export const IgihandeListPage = () => {
 export const IgihandeCreatePage = () => {
   const t = useTranslate();
   const { formProps, saveButtonProps, onFinish } = useForm({
-    resource: "igihande",
+    resource: "igihandes",
     action: "create",
     redirect: "list",
   });
@@ -160,7 +166,7 @@ export const IgihandeCreatePage = () => {
 export const IgihandeEditPage = () => {
   const t = useTranslate();
   const { formProps, saveButtonProps, onFinish } = useForm({
-    resource: "igihande",
+    resource: "igihandes",
     action: "edit",
     redirect: "list",
   });
@@ -207,7 +213,7 @@ export const IgihandeEditPage = () => {
 export const IgihandeShowPage = () => {
   const t = useTranslate();
   const { query } = useShow({
-    resource: "igihande",
+    resource: "igihandes",
   });
 
   const igihandeData = query?.data?.data;

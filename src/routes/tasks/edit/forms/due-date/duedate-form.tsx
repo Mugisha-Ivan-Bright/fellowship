@@ -34,6 +34,7 @@ export const DueDateForm = ({ initialValues, cancelForm }: Props) => {
       cancelForm();
     },
     meta: {
+      operation: "UpdateTask",
       gqlMutation: UPDATE_TASK_MUTATION,
     },
   });

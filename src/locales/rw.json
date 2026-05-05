@@ -44,7 +44,26 @@
     "profile": "Umwirondoro w'umunyetorero",
     "editProfile": "Hindura umwirondoro",
     "deactivate": "Shyira mu batagikora",
-    "activate": "Shyira mu bakora"
+    "activate": "Shyira mu bakora",
+    "actions": {
+      "enroll": "Andika Umunyetorero Mushya",
+      "edit": "Hindura Umunyetorero",
+      "show": "Ibisobanuro by'Umunyetorero"
+    },
+    "fields": {
+      "name": "Umunyetorero",
+      "phone": "Terefoni",
+      "igihande": "Igihande",
+      "status": "Imiterere",
+      "membershipNo": "Nimero y'Umunyetorero",
+      "nationalId": "Indangamuntu",
+      "firstName": "Izina rya mbere",
+      "lastName": "Izina rya kabiri",
+      "gender": "Igitsina",
+      "province": "Intara",
+      "district": "Akarere",
+      "maritalStatus": "Irangamimerere"
+    }
   },
   "enroll": {
     "title": "Andikisha umunyetorero mushya",
@@ -174,28 +193,6 @@
     "actions": "Ibikorwa",
     "table": {
       "paginationTotal": "{{rangeStart}}-{{rangeEnd}} kuri {{total}}"
-    }
-  },
-  "members": {
-    "title": "Abanyetorero",
-    "actions": {
-      "enroll": "Andika Umunyetorero Mushya",
-      "edit": "Hindura Umunyetorero",
-      "show": "Ibisobanuro by'Umunyetorero"
-    },
-    "fields": {
-      "name": "Umunyetorero",
-      "phone": "Terefoni",
-      "igihande": "Igihande",
-      "status": "Imiterere",
-      "membershipNo": "Nimero y'Umunyetorero",
-      "nationalId": "Indangamuntu",
-      "firstName": "Izina rya mbere",
-      "lastName": "Izina rya kabiri",
-      "gender": "Igitsina",
-      "province": "Intara",
-      "district": "Akarere",
-      "maritalStatus": "Irangamimerere"
     }
   },
   "igihande": {

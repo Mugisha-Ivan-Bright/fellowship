@@ -65,6 +65,7 @@ export const TitleForm = ({ initialValues, isLoading }: Props) => {
       invalidate({ invalidates: ["list"], resource: "tasks" });
     },
     meta: {
+      operation: "UpdateTask",
       gqlMutation: UPDATE_TASK_MUTATION,
     },
   });

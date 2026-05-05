@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const DASHBOARD_DEALS_CHART_QUERY = gql`
   query DashboardDealsChart(
-    $filter: DealStageFilter!
+    $filter: DealStageFilter
     $sorting: [DealStageSort!]
     $paging: OffsetPaging
   ) {

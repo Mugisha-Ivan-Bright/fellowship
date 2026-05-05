@@ -1,4 +1,5 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
+import gql from "graphql-tag";
 
 import { useNotificationProvider } from "@refinedev/antd";
 import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
@@ -10,13 +11,10 @@ import routerProvider, {
   UnsavedChangesNotifier,
 } from "@refinedev/react-router";
 import type { AuthProvider } from "@refinedev/core";
-import { useAuth } from "@clerk/react";
-
 import { App as AntdApp, ConfigProvider } from "antd";
 
 import { Layout } from "@/components";
 import { resources } from "@/config/resources";
-import { dataProvider } from "@/providers";
 import {
   AttendanceCreatePage,
   AttendanceListPage,
@@ -43,9 +41,52 @@ import "@refinedev/antd/dist/reset.css";
 import { useI18nProvider } from "@/providers/i18n-provider";
 import { accessControlProvider } from "@/providers/accessControlProvider";
 
+import { useAuth, useUser } from "@clerk/react";
+import { useEffect } from "react";
+import { API_URL, dataProvider } from "@/providers";
+
 const App = () => {
   const { isSignedIn, signOut } = useAuth();
+  const { user } = useUser();
   const i18nProvider = useI18nProvider();
+
+  // Global user sync
+  useEffect(() => {
+    if (isSignedIn && user) {
+      const syncUser = async () => {
+        try {
+          const variables = {
+            clerkId: user.id,
+            email: user.primaryEmailAddress?.emailAddress || "",
+            name: user.fullName || ""
+          };
+          console.log("DEBUG: Syncing user with variables:", variables);
+          const result = await dataProvider.custom({
+            url: API_URL,
+            method: "post",
+            headers: {
+              "x-clerk-user-id": user.id
+            },
+            meta: {
+              operation: "SyncUser",
+              variables,
+              gqlMutation: gql`
+                mutation SyncUser($clerkId: String!, $email: String!, $name: String) {
+                  syncUser(clerkId: $clerkId, email: $email, name: $name) {
+                    id
+                  }
+                }
+              `
+            }
+          });
+          console.log("User sync successful:", result);
+        } catch (error) {
+          console.error("User sync failed:", error);
+        }
+      };
+      syncUser();
+    }
+  }, [isSignedIn, user]);
 
   const authProvider: AuthProvider = {
     login: async () => {
@@ -65,7 +106,37 @@ const App = () => {
       return { authenticated: false, redirectTo: "/login" };
     },
     getIdentity: async () => {
-      return null;
+      if (!user) return null;
+
+      try {
+        const { data } = await dataProvider.custom({
+          url: API_URL,
+          method: "post",
+          headers: {
+            "x-clerk-user-id": user.id
+          },
+          meta: {
+            operation: "Me",
+            gqlQuery: gql`
+              query Me {
+                me {
+                  id
+                  name
+                  email
+                  role
+                }
+              }
+            `
+          }
+        });
+        return data.me;
+      } catch (error) {
+        return {
+          id: user.id,
+          name: user.fullName,
+          email: user.primaryEmailAddress?.emailAddress,
+        };
+      }
     },
   };
 

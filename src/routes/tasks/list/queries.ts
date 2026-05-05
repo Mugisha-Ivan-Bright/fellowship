@@ -2,9 +2,9 @@ import gql from "graphql-tag";
 
 export const TASK_STAGES_QUERY = gql`
   query TaskStages(
-    $filter: TaskStageFilter!
+    $filter: TaskStageFilter
     $sorting: [TaskStageSort!]
-    $paging: OffsetPaging!
+    $paging: OffsetPaging
   ) {
     taskStages(filter: $filter, sorting: $sorting, paging: $paging) {
       totalCount
@@ -18,9 +18,9 @@ export const TASK_STAGES_QUERY = gql`
 
 export const TASKS_QUERY = gql`
   query Tasks(
-    $filter: TaskFilter!
+    $filter: TaskFilter
     $sorting: [TaskSort!]
-    $paging: OffsetPaging!
+    $paging: OffsetPaging
   ) {
     tasks(filter: $filter, sorting: $sorting, paging: $paging) {
       totalCount
@@ -29,8 +29,13 @@ export const TASKS_QUERY = gql`
         title
         description
         dueDate
+        priority
         completed
         stageId
+        stage {
+          id
+          title
+        }
         users {
           id
           name
@@ -47,6 +52,7 @@ export const UPDATE_TASK_STAGE_MUTATION = gql`
   mutation UpdateTaskStage($input: UpdateOneTaskInput!) {
     updateOneTask(input: $input) {
       id
+      stageId
     }
   }
 `;

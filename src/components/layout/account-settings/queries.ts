@@ -1,14 +1,10 @@
 import gql from "graphql-tag";
 
+// Note: UpdateUser mutation disabled as it is not implemented in the current schema
 export const UPDATE_USER_MUTATION = gql`
-  mutation UpdateUser($input: UpdateOneUserInput!) {
-    updateOneUser(input: $input) {
+  query DummyUserUpdate {
+    me {
       id
-      name
-      avatarUrl
-      email
-      phone
-      jobTitle
     }
   }
 `;

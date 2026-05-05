@@ -23,13 +23,16 @@
     "upcomingEvents": "Upcoming events",
     "noUpcomingEvents": "No upcoming events",
     "latestActivities": "Latest activities",
+    "dedicationsTrend": "Dedications Trend",
     "activity": {
       "created": "created",
       "moved": "moved",
       "in": "in",
       "to": "to",
       "record": "record",
-      "unassigned": "Unassigned"
+      "unassigned": "Unassigned",
+      "enrolled": "enrolled",
+      "updated": "updated"
     }
   },
   "members": {
@@ -44,7 +47,26 @@
     "profile": "Member profile",
     "editProfile": "Edit profile",
     "deactivate": "Mark as inactive",
-    "activate": "Mark as active"
+    "activate": "Mark as active",
+    "actions": {
+      "enroll": "Enroll New Member",
+      "edit": "Edit Member",
+      "show": "Member Details"
+    },
+    "fields": {
+      "name": "Member",
+      "phone": "Phone",
+      "igihande": "Igihande",
+      "status": "Status",
+      "membershipNo": "Membership Number",
+      "nationalId": "National ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "gender": "Gender",
+      "province": "Province",
+      "district": "District",
+      "maritalStatus": "Marital Status"
+    }
   },
   "enroll": {
     "title": "Enroll new member",
@@ -174,28 +196,6 @@
     "actions": "Actions",
     "table": {
       "paginationTotal": "{{rangeStart}}-{{rangeEnd}} of {{total}} items"
-    }
-  },
-  "members": {
-    "title": "Members",
-    "actions": {
-      "enroll": "Enroll New Member",
-      "edit": "Edit Member",
-      "show": "Member Details"
-    },
-    "fields": {
-      "name": "Member",
-      "phone": "Phone",
-      "igihande": "Igihande",
-      "status": "Status",
-      "membershipNo": "Membership Number",
-      "nationalId": "National ID",
-      "firstName": "First Name",
-      "lastName": "Last Name",
-      "gender": "Gender",
-      "province": "Province",
-      "district": "District",
-      "maritalStatus": "Marital Status"
     }
   },
   "igihande": {

@@ -30,7 +30,7 @@ export const resources: IResourceItem[] = [
     },
   },
   {
-    name: "igihande",
+    name: "igihandes",
     list: "/igihande",
     show: "/igihande/:id",
     create: "/igihande/new",
@@ -41,7 +41,7 @@ export const resources: IResourceItem[] = [
     },
   },
   {
-    name: "attendance",
+    name: "attendances",
     list: "/attendance",
     create: "/attendance/new",
     meta: {

@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export const CREATE_MEMBER_MUTATION = gql`
-  mutation CreateMember($input: CreateMemberInput!) {
-    createMember(input: $input) {
+  mutation CreateOneMember($input: CreateOneMemberInput!) {
+    createOneMember(input: $input) {
       id
       membershipNo
       firstName
@@ -21,8 +21,8 @@ export const CREATE_MEMBER_MUTATION = gql`
 `;
 
 export const UPDATE_MEMBER_MUTATION = gql`
-  mutation UpdateMember($id: ID!, $input: UpdateMemberInput!) {
-    updateMember(id: $id, input: $input) {
+  mutation UpdateOneMember($id: ID!, $input: UpdateOneMemberInput!) {
+    updateOneMember(id: $id, input: $input) {
       id
       firstName
       lastName
@@ -50,8 +50,8 @@ export const CREATE_ATTENDANCE_MUTATION = gql`
 `;
 
 export const CREATE_IGIHANDE_MUTATION = gql`
-  mutation CreateIgihande($name: String!, $leaderId: ID) {
-    createIgihande(name: $name, leaderId: $leaderId) {
+  mutation CreateOneIgihande($name: String!, $leaderId: ID) {
+    createOneIgihande(name: $name, leaderId: $leaderId) {
       id
       name
       leader {
@@ -63,8 +63,8 @@ export const CREATE_IGIHANDE_MUTATION = gql`
 `;
 
 export const UPDATE_IGIHANDE_MUTATION = gql`
-  mutation UpdateIgihande($id: ID!, $name: String, $leaderId: ID) {
-    updateIgihande(id: $id, name: $name, leaderId: $leaderId) {
+  mutation UpdateOneIgihande($id: ID!, $name: String, $leaderId: ID) {
+    updateOneIgihande(id: $id, name: $name, leaderId: $leaderId) {
       id
       name
     }
@@ -72,8 +72,8 @@ export const UPDATE_IGIHANDE_MUTATION = gql`
 `;
 
 export const CREATE_DEDICATION_MUTATION = gql`
-  mutation CreateDedication($input: CreateDedicationInput!) {
-    createDedication(input: $input) {
+  mutation CreateOneDedication($input: CreateOneDedicationInput!) {
+    createOneDedication(input: $input) {
       id
       type
       description
@@ -87,33 +87,33 @@ export const CREATE_DEDICATION_MUTATION = gql`
 `;
 
 export const CREATE_TASK_MUTATION = gql`
-  mutation CreateTask($input: CreateTaskInput!) {
-    createTask(input: $input) {
+  mutation CreateOneTask($input: CreateOneTaskInput!) {
+    createOneTask(input: $input) {
       id
       title
-      stage
+      stageId
       priority
     }
   }
 `;
 
 export const UPDATE_TASK_MUTATION = gql`
-  mutation UpdateTask($id: ID!, $input: UpdateTaskInput!) {
-    updateTask(id: $id, input: $input) {
+  mutation UpdateOneTask($input: UpdateOneTaskInput!) {
+    updateOneTask(input: $input) {
       id
       title
       description
-      stage
+      stageId
       dueDate
     }
   }
 `;
 
 export const UPDATE_TASK_STAGE_MUTATION = gql`
-  mutation UpdateTaskStage($id: ID!, $stage: TaskStage!) {
+  mutation UpdateTaskStage($id: ID!, $stage: TaskStageEnum!) {
     updateTaskStage(id: $id, stage: $stage) {
       id
-      stage
+      stageId
     }
   }
 `;

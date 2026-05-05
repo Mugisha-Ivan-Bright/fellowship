@@ -33,10 +33,16 @@ import { SearchOutlined, UserOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
+import { MEMBERS_LIST_QUERY } from "@/graphql/queries";
+
 export const MembersListPage = () => {
   const t = useTranslate();
   const { tableProps } = useTable({
     resource: "members",
+    meta: {
+      operation: "MembersList",
+      gqlQuery: MEMBERS_LIST_QUERY,
+    },
   });
 
   const columns = [

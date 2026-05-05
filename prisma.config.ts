@@ -1,10 +1,15 @@
-import "dotenv/config";
-import dotenv from "dotenv";
+// IMPORTANT: dotenv must be loaded before importing prisma/config
+// because prisma's env() reads process.env at call time
+import { config } from "dotenv";
+config({ path: ".env.local", override: true });
 
-// Load .env.local (takes priority)
-dotenv.config({ path: ".env.local" });
+import { defineConfig } from "prisma/config";
 
-import { defineConfig, env } from "prisma/config";
+const dbUrl = process.env.DATABASE_URL;
+
+if (!dbUrl) {
+  throw new Error("DATABASE_URL is not set in .env.local");
+}
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
@@ -12,6 +17,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: env("DATABASE_URL"),
+    url: dbUrl,
   },
 });

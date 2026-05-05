@@ -2,8 +2,6 @@ import { useTranslate, useCustom } from "@refinedev/core";
 
 import { Col, Row, Typography } from "antd";
 
-import type { DashboardTotalCountsQuery } from "@/graphql/types";
-
 import {
   CalendarUpcomingEvents,
   DashboardDealsChart,
@@ -15,13 +13,15 @@ import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./queries";
 export const DashboardPage = () => {
   const t = useTranslate();
   const {
-    query: { isLoading },
-
     result: data,
+    query: { isLoading },
   } = useCustom<any>({
     url: "",
     method: "get",
-    meta: { gqlQuery: DASHBOARD_TOTAL_COUNTS_QUERY },
+    meta: { 
+      operation: "DashboardTotalCounts",
+      gqlQuery: DASHBOARD_TOTAL_COUNTS_QUERY 
+    },
   });
 
   return (
@@ -39,14 +39,14 @@ export const DashboardPage = () => {
         </Col>
         <Col xs={24} sm={24} xl={6}>
           <DashboardTotalCountCard
-            resource="igihande"
+            resource="igihandes"
             isLoading={isLoading}
             totalCount={data?.data?.dashboardStats?.totalIgihande}
           />
         </Col>
         <Col xs={24} sm={24} xl={6}>
           <DashboardTotalCountCard
-            resource="attendance"
+            resource="attendances"
             isLoading={isLoading}
             totalCount={data?.data?.dashboardStats?.attendanceRate}
           />

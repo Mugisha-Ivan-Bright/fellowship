@@ -27,10 +27,16 @@ import dayjs from "dayjs";
 
 const { Text } = Typography;
 
+import { ATTENDANCE_LIST_QUERY } from "@/graphql/queries";
+
 export const AttendanceListPage = () => {
   const t = useTranslate();
   const { tableProps } = useTable({
-    resource: "attendance",
+    resource: "attendances",
+    meta: {
+      operation: "AttendanceList",
+      gqlQuery: ATTENDANCE_LIST_QUERY,
+    },
   });
 
   const columns = [
@@ -160,7 +166,7 @@ export const AttendanceListPage = () => {
 export const AttendanceCreatePage = () => {
   const t = useTranslate();
   const { formProps, saveButtonProps, onFinish } = useForm({
-    resource: "attendance",
+    resource: "attendances",
     action: "create",
     redirect: "list",
   });

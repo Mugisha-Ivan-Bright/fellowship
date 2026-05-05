@@ -35,8 +35,8 @@ export const accessControlProvider: AccessControlProvider = {
 
     if (role === "IGIHANDE_LEADER") {
       if (resource === "tasks") return { can: true };
-      if (resource === "attendance" && (action === "list" || action === "create")) return { can: true };
-      if (resource === "igihande" && (action === "list" || action === "show")) return { can: true };
+      if (resource === "attendances" && (action === "list" || action === "create")) return { can: true };
+      if (resource === "igihandes" && (action === "list" || action === "show")) return { can: true };
       if (resource === "members" && (action === "list" || action === "show")) return { can: true };
       
       return {

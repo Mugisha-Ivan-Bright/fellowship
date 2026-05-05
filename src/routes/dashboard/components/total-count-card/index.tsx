@@ -5,7 +5,7 @@ import { Card, Skeleton } from "antd";
 
 import { Text } from "@/components";
 
-type Type = "members" | "attendance" | "dedications" | "igihande";
+type Type = "members" | "attendances" | "dedications" | "igihandes";
 
 type Props = {
   resource: Type;
@@ -61,8 +61,8 @@ export const DashboardTotalCountCard = ({
   return (
     <Card
       style={{ height: "96px", padding: 0 }}
-      bodyStyle={{
-        padding: "8px 8px 8px 12px",
+      styles={{
+        body: { padding: "8px 8px 8px 12px" }
       }}
       size="small"
     >
@@ -108,12 +108,23 @@ export const DashboardTotalCountCard = ({
             totalCount
           )}
         </Text>
-        <Area
-          {...config}
+        <div
           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
             width: "50%",
+            height: "60px",
           }}
-        />
+        >
+          <Area
+            {...config}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        </div>
       </div>
     </Card>
   );
@@ -171,7 +182,7 @@ const variants: {
       { index: "5", value: 55 },
     ],
   },
-  igihande: {
+  igihandes: {
     primaryColor: "#185FA5",
     secondaryColor: "#B5D4F4",
     icon: (
@@ -193,7 +204,7 @@ const variants: {
       { index: "5", value: 6 },
     ],
   },
-  attendance: {
+  attendances: {
     primaryColor: "#1B6B3A",
     secondaryColor: "#C0DD97",
     icon: (

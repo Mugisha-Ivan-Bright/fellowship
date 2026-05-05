@@ -28,10 +28,16 @@ import dayjs from "dayjs";
 
 const { Text } = Typography;
 
+import { DEDICATIONS_LIST_QUERY } from "@/graphql/queries";
+
 export const DedicationsListPage = () => {
   const t = useTranslate();
   const { tableProps } = useTable({
     resource: "dedications",
+    meta: {
+      operation: "DedicationsList",
+      gqlQuery: DEDICATIONS_LIST_QUERY,
+    },
   });
 
   const columns = [

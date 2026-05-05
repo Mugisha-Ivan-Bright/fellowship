@@ -1,31 +1,23 @@
 import { useTranslate, useList } from "@refinedev/core";
-import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { UnorderedListOutlined } from "@ant-design/icons";
 import { Card, List, Skeleton as AntdSkeleton, Space } from "antd";
 import dayjs from "dayjs";
 
 import { CustomAvatar, Text } from "@/components";
-import type {
-  DashboardLatestActivitiesAuditsQuery,
-  DashboardLatestActivitiesDealsQuery,
-} from "@/graphql/types";
 
-import {
-  DASHBOARD_LATEST_ACTIVITIES_AUDITS_QUERY,
-  DASHBOARD_LATEST_ACTIVITIES_DEALS_QUERY,
-} from "./queries";
+import { DASHBOARD_LATEST_ACTIVITIES_DEDICATIONS_QUERY } from "./queries";
 
 type Props = { limit?: number };
 
 export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
   const t = useTranslate();
-  const {
-    result: audit,
 
-    query: { isLoading: isLoadingAudit, isError, error },
-  } = useList<GetFieldsFromList<DashboardLatestActivitiesAuditsQuery>>({
-    resource: "audits",
+  const {
+    result: dedications,
+    query: { isLoading, isError, error },
+  } = useList<any>({
+    resource: "dedications",
     pagination: {
       pageSize: limit,
     },
@@ -35,37 +27,9 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
         order: "desc",
       },
     ],
-    filters: [
-      {
-        field: "action",
-        operator: "in",
-        value: ["CREATE", "UPDATE"],
-      },
-      {
-        field: "targetEntity",
-        operator: "eq",
-        value: "Deal",
-      },
-    ],
     meta: {
-      gqlQuery: DASHBOARD_LATEST_ACTIVITIES_AUDITS_QUERY,
-    },
-  });
-
-  const dealIds = audit?.data?.map((audit) => audit.targetId);
-
-  const {
-    result: deals,
-    query: { isLoading: isLoadingDeals },
-  } = useList<GetFieldsFromList<DashboardLatestActivitiesDealsQuery>>({
-    resource: "deals",
-    queryOptions: { enabled: !!dealIds?.length },
-    pagination: {
-      mode: "off",
-    },
-    filters: [{ field: "id", operator: "in", value: dealIds }],
-    meta: {
-      gqlQuery: DASHBOARD_LATEST_ACTIVITIES_DEALS_QUERY,
+      operation: "DashboardLatestActivitiesDedications",
+      gqlQuery: DASHBOARD_LATEST_ACTIVITIES_DEDICATIONS_QUERY,
     },
   });
 
@@ -74,13 +38,11 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
     return null;
   }
 
-  const isLoading = isLoadingAudit || isLoadingDeals;
-
   return (
     <Card
-      headStyle={{ padding: "16px" }}
-      bodyStyle={{
-        padding: "0 1rem",
+      styles={{
+        header: { padding: "16px" },
+        body: { padding: "0 1rem" },
       }}
       title={
         <div
@@ -142,11 +104,12 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
       ) : (
         <List
           itemLayout="horizontal"
-          dataSource={audit?.data || []}
-          renderItem={(item) => {
-            const deal =
-              deals?.data.find((deal) => deal.id === `${item.targetId}`) ||
-              undefined;
+          dataSource={dedications?.data || []}
+          renderItem={(item: any) => {
+            const member = item.member;
+            const fullName = member
+              ? `${member.firstName} ${member.lastName}`
+              : t("dashboard.activity.unassigned");
 
             return (
               <List.Item>
@@ -155,21 +118,23 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
                     <CustomAvatar
                       shape="square"
                       size={48}
-                      src={deal?.company.avatarUrl}
-                      name={deal?.company.name}
+                      src={member?.photoUrl}
+                      name={fullName}
                     />
                   }
-                  title={dayjs(deal?.createdAt).format("MMM DD, YYYY - HH:mm")}
+                  title={dayjs(item.date).format("MMM DD, YYYY")}
                   description={
                     <Space size={4} wrap>
-                      <Text strong>{item.user?.name}</Text>
+                      <Text strong>{fullName}</Text>
                       <Text>
-                        {item.action === "CREATE" ? t("dashboard.activity.created") : t("dashboard.activity.moved")}
+                        {t("dashboard.activity.gave") || "gave"}
                       </Text>
-                      <Text strong>{deal?.title}</Text>
-                      <Text>{t("dashboard.activity.record")}</Text>
-                      <Text>{item.action === "CREATE" ? t("dashboard.activity.in") : t("dashboard.activity.to")}</Text>
-                      <Text strong>{deal?.stage?.title || t("dashboard.activity.unassigned")}.</Text>
+                      <Text strong>
+                        {item.type}
+                      </Text>
+                      {item.description && (
+                        <Text>— {item.description}</Text>
+                      )}
                     </Space>
                   }
                 />
@@ -181,4 +146,3 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
     </Card>
   );
 };
-

@@ -45,6 +45,7 @@ export const TasksListPage = ({ children }: React.PropsWithChildren) => {
       },
     ],
     meta: {
+      operation: "TaskStages",
       gqlQuery: TASK_STAGES_QUERY,
     },
   });
@@ -67,6 +68,7 @@ export const TasksListPage = ({ children }: React.PropsWithChildren) => {
       mode: "off",
     },
     meta: {
+      operation: "Tasks",
       gqlQuery: TASKS_QUERY,
     },
   });
@@ -100,6 +102,7 @@ export const TasksListPage = ({ children }: React.PropsWithChildren) => {
     mutationMode: "optimistic",
     successNotification: false,
     meta: {
+      operation: "UpdateTaskStage",
       gqlMutation: UPDATE_TASK_STAGE_MUTATION,
     },
   });

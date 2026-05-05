@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useList } from "@refinedev/core";
+import { useList, useTranslate } from "@refinedev/core";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { DollarOutlined } from "@ant-design/icons";
@@ -14,23 +14,26 @@ import { DASHBOARD_DEALS_CHART_QUERY } from "./queries";
 import { mapDealsData } from "./utils";
 
 export const DashboardDealsChart = () => {
-  const { result: data } = useList<GetFieldsFromList<DashboardDealsChartQuery>>(
-    {
-      resource: "dealStages",
-      filters: [{ field: "title", operator: "in", value: ["WON", "LOST"] }],
-      meta: {
-        gqlQuery: DASHBOARD_DEALS_CHART_QUERY,
-      },
+  const t = useTranslate();
+  const {
+    result: data,
+    query: { isLoading },
+  } = useList<GetFieldsFromList<DashboardDealsChartQuery>>({
+    resource: "dealStages",
+    filters: [{ field: "title", operator: "in", value: ["WON", "LOST"] }],
+    meta: {
+      operation: "DashboardDealsChart",
+      gqlQuery: DASHBOARD_DEALS_CHART_QUERY,
     },
-  );
+  });
 
-  const dealData = React.useMemo(() => {
+  const queryData = React.useMemo(() => {
     return mapDealsData(data?.data);
   }, [data?.data]);
 
   const config: AreaConfig = {
     isStack: false,
-    data: dealData,
+    data: queryData,
     xField: "timeText",
     yField: "value",
     seriesField: "state",
@@ -44,7 +47,7 @@ export const DashboardDealsChart = () => {
       tickCount: 4,
       label: {
         formatter: (v) => {
-          return `$${Number(v) / 1000}k`;
+          return `${Number(v).toLocaleString()} RWF`;
         },
       },
     },
@@ -52,25 +55,27 @@ export const DashboardDealsChart = () => {
       formatter: (data) => {
         return {
           name: data.state,
-          value: `$${Number(data.value) / 1000}k`,
+          value: `${Number(data.value).toLocaleString()} RWF`,
         };
       },
     },
     areaStyle: (datum) => {
       const won = "l(270) 0:#ffffff 0.5:#b7eb8f 1:#52c41a";
       const lost = "l(270) 0:#ffffff 0.5:#f3b7c2 1:#ff4d4f";
-      return { fill: datum.state === "Won" ? won : lost };
+      return { fill: datum.state === "WON" ? won : lost };
     },
     color: (datum) => {
-      return datum.state === "Won" ? "#52C41A" : "#F5222D";
+      return datum.state === "WON" ? "#52C41A" : "#F5222D";
     },
   };
 
   return (
     <Card
       style={{ height: "100%" }}
-      headStyle={{ padding: "8px 16px" }}
-      bodyStyle={{ padding: "24px 24px 0px 24px" }}
+      styles={{
+        header: { padding: "8px 16px" },
+        body: { padding: "24px 24px 0 24px" }
+      }}
       title={
         <div
           style={{
@@ -81,7 +86,7 @@ export const DashboardDealsChart = () => {
         >
           <DollarOutlined />
           <Text size="sm" style={{ marginLeft: ".5rem" }}>
-            Deals
+            {t("dashboard.dedicationsTrend") || "Dedications Trend"}
           </Text>
         </div>
       }

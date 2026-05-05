@@ -34,6 +34,7 @@ export const CalendarUpcomingEvents = () => {
       },
     ],
     meta: {
+      operation: "DashboardCalendarUpcomingEvents",
       gqlQuery: DASHBOARD_CALENDAR_UPCOMING_EVENTS_QUERY,
     },
   });
@@ -43,9 +44,9 @@ export const CalendarUpcomingEvents = () => {
       style={{
         height: "100%",
       }}
-      headStyle={{ padding: "8px 16px" }}
-      bodyStyle={{
-        padding: "0 1rem",
+      styles={{
+        header: { padding: "8px 16px" },
+        body: { padding: "0 1rem" }
       }}
       title={
         <div

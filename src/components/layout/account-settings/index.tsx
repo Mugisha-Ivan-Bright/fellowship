@@ -36,6 +36,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     action: "edit",
     id: userId,
     meta: {
+      operation: "DummyUserUpdate",
       gqlMutation: UPDATE_USER_MUTATION,
     },
   });

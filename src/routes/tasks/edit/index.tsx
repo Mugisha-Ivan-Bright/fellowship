@@ -35,6 +35,7 @@ export const TasksEditPage = () => {
     action: "edit",
     defaultVisible: true,
     meta: {
+      operation: "UpdateTask",
       gqlMutation: UPDATE_TASK_MUTATION,
     },
   });
